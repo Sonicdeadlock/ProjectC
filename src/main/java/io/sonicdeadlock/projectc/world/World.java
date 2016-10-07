@@ -1,5 +1,6 @@
 package io.sonicdeadlock.projectc.world;
 
+import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.EntityFactory;
 import io.sonicdeadlock.projectc.entity.Player;
 import io.sonicdeadlock.projectc.util.JSONLoader;
@@ -14,11 +15,14 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Alex on 10/5/2016.
  */
-public class World {
+public class World implements Searchable {
     private static final Logger LOGGER = LogManager.getLogger(World.class);
 
 //    The loaded chunks around the user
@@ -92,6 +96,44 @@ public class World {
         } catch (IOException e) {
             LOGGER.error("Error Saving Chunk",e);
         }
+    }
+
+    public Chunk getChunk(int x,int y){
+        for (Chunk loadedChunk : loadedChunks) {
+            if(loadedChunk.getX()==x && loadedChunk.getY()==y)
+                return loadedChunk;
+        }
+        return loadChunk(x,y);
+    }
+
+    public List<Entity> radialSearch(int x,int y,int radius){
+        List<Entity> foundEntities = new ArrayList<>();
+        int westBoundChunk = (x-radius)/Chunk.CHUNK_SIZE;
+        int eastBoundChunk = (x+radius)/Chunk.CHUNK_SIZE;
+        int northBoundChunk = (y-radius)/Chunk.CHUNK_SIZE;
+        int southBoundChunk = (y+radius)/Chunk.CHUNK_SIZE;
+
+        for (int chunkX = westBoundChunk; chunkX < eastBoundChunk; chunkX++) {
+            for (int chunkY = northBoundChunk; chunkY < southBoundChunk; chunkY++) {
+                Collections.copy(foundEntities,getChunk(chunkX,chunkY).radialSearch(x,y,radius));
+            }
+        }
+        return foundEntities;
+    }
+
+    @Override
+    public List<Entity> squareSearch(int x, int y, int width, int height) {
+        List<Entity> foundEntities = new ArrayList<>();
+        int westBoundChunk = (x)/Chunk.CHUNK_SIZE;
+        int eastBoundChunk = (x+width)/Chunk.CHUNK_SIZE;
+        int northBoundChunk = (y)/Chunk.CHUNK_SIZE;
+        int southBoundChunk = (y+height)/Chunk.CHUNK_SIZE;
+        for (int chunkX = westBoundChunk; chunkX < eastBoundChunk; chunkX++) {
+            for (int chunkY = northBoundChunk; chunkY < southBoundChunk; chunkY++) {
+                Collections.copy(foundEntities,getChunk(chunkX,chunkY).squareSearch(x,y,width,height));
+            }
+        }
+        return foundEntities;
     }
 
 }

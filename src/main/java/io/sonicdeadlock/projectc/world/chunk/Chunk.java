@@ -1,20 +1,23 @@
 package io.sonicdeadlock.projectc.world.chunk;
 
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
+import io.sonicdeadlock.projectc.util.SpacalUtils;
 import io.sonicdeadlock.projectc.world.Loadable;
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.EntityFactory;
+import io.sonicdeadlock.projectc.world.Searchable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Alex on 10/5/2016.
  */
-public class Chunk implements Loadable{
+public class Chunk implements Loadable,Searchable{
     public static final int CHUNK_SIZE;
     private List<Entity> entities;
     private int x,y;
@@ -135,5 +138,21 @@ public class Chunk implements Loadable{
                 .append(".")
                 .append(PropertiesLoader.getProperty("chunk","saveFileType"));
         return fileName.toString();
+    }
+
+    public List<Entity> radialSearch(int x,int y,int radius){
+        return entities.stream().filter(entity -> SpacalUtils.getDistance(entity.getX(), entity.getY(), x, y) <= radius).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Entity> squareSearch(int x, int y, int width, int height) {
+        List<Entity> foundEntities = new ArrayList<>();
+        for (Entity entity : entities) {
+            int eXDelta = entity.getX()-x;
+            int eYDelta = entity.getY()-y;
+            if(eXDelta>width && eYDelta>height)
+                foundEntities.add(entity);
+        }
+        return foundEntities;
     }
 }
