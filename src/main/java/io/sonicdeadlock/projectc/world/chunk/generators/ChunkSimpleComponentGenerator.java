@@ -1,7 +1,7 @@
 package io.sonicdeadlock.projectc.world.chunk.generators;
 
-import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import io.sonicdeadlock.projectc.entity.Entity;
+import io.sonicdeadlock.projectc.world.chunk.Chunk;
 
 import java.util.Random;
 

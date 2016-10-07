@@ -1,7 +1,6 @@
 package io.sonicdeadlock.projectc.entity.attribute;
 
 import io.sonicdeadlock.projectc.world.Loadable;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Created by Alex on 10/6/2016.
@@ -9,7 +8,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public abstract class Attribute implements Loadable {
 
     public static String getType(){
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException ();
     }
 
     public boolean isType(String type){

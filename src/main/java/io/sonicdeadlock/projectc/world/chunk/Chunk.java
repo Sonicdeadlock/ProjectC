@@ -1,10 +1,10 @@
 package io.sonicdeadlock.projectc.world.chunk;
 
+import io.sonicdeadlock.projectc.entity.Entity;
+import io.sonicdeadlock.projectc.entity.EntityFactory;
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
 import io.sonicdeadlock.projectc.util.SpacalUtils;
 import io.sonicdeadlock.projectc.world.Loadable;
-import io.sonicdeadlock.projectc.entity.Entity;
-import io.sonicdeadlock.projectc.entity.EntityFactory;
 import io.sonicdeadlock.projectc.world.Searchable;
 import org.json.JSONArray;
 import org.json.JSONObject;

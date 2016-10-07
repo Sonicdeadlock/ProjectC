@@ -1,14 +1,11 @@
 package io.sonicdeadlock.projectc.world.chunk;
 
 import io.sonicdeadlock.projectc.util.JSONLoader;
-import io.sonicdeadlock.projectc.util.PropertiesLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 /**

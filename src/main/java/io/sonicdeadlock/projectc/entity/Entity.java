@@ -2,9 +2,7 @@ package io.sonicdeadlock.projectc.entity;
 
 import io.sonicdeadlock.projectc.util.UserOutputStream;
 import io.sonicdeadlock.projectc.world.Loadable;
-import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import org.json.JSONObject;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +70,6 @@ public abstract class Entity implements Loadable{
     }
 
     public static String getType(){
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 }
