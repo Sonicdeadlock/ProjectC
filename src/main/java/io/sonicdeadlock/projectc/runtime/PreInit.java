@@ -3,6 +3,8 @@ package io.sonicdeadlock.projectc.runtime;
 import io.sonicdeadlock.projectc.entity.EntityFactory;
 import io.sonicdeadlock.projectc.entity.Player;
 import io.sonicdeadlock.projectc.entity.Widget;
+import io.sonicdeadlock.projectc.entity.attribute.AttributeFactory;
+import io.sonicdeadlock.projectc.entity.skill.Sprint;
 import io.sonicdeadlock.projectc.world.chunk.ChunkGenerator;
 import io.sonicdeadlock.projectc.world.chunk.generators.ChunkWidgetGenerator;
 import org.apache.logging.log4j.LogManager;
@@ -38,5 +40,16 @@ public class PreInit {
         LOGGER.info("Starting Chunk Generator Registration");
         ChunkGenerator.getInstance().registerGenerator(ChunkWidgetGenerator.class);
         LOGGER.info("Finished Chunk Generator Registration");
+    }
+
+    private void registerAttributes(){
+        LOGGER.info("Starting Attribute Registration");
+        LOGGER.info("Finished Attribute Registration");
+    }
+
+    private void registerSkills(){
+        LOGGER.info("Starting Skill Registration");
+        AttributeFactory.getInstance().registerAttribute(Sprint.getType(),Sprint.class);
+        LOGGER.info("Finished Skill Registration");
     }
 }

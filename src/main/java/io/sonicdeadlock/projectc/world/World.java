@@ -53,7 +53,7 @@ public class World {
     private void loadChunks(){
         for (int x = -1 , index=0; x <= 1; x++) {
             for (int y = -1; y <= 1; y++,index++) {
-                loadedChunks[index] = loadChunk(x+player.getChunkX(),y+player.getChuunkY());
+                loadedChunks[index] = loadChunk(x+player.getChunkX(),y+player.getChunkY());
             }
         }
     }
