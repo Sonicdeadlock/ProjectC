@@ -66,7 +66,9 @@ public class World implements Searchable {
         if((new File(Chunk.getSaveLocation(x,y))).exists()){
             return ChunkLoader.getInstance().loadChunk(x,y);
         }else{
-            return ChunkGenerator.getInstance().generateChunk(x,y);
+            Chunk c= ChunkGenerator.getInstance().generateChunk(x,y);
+            saveChunk(c);
+            return c;
         }
     }
 
