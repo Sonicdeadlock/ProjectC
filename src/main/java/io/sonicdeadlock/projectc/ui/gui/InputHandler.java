@@ -2,6 +2,7 @@ package io.sonicdeadlock.projectc.ui.gui;
 
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.Player;
+import io.sonicdeadlock.projectc.entity.skill.Skill;
 import io.sonicdeadlock.projectc.util.UserOutputStream;
 import io.sonicdeadlock.projectc.world.World;
 
@@ -29,6 +30,8 @@ public class InputHandler {
             return movePlayerTo(inputParts,world,player);
         }else if(action.equalsIgnoreCase("look")){
             return playerLook(inputParts,world,player);
+        }else if(action.equalsIgnoreCase("self")){
+            return examineSelf(player);
         }
         return new GameResponse("Unrecognized action: "+action);
 
@@ -96,5 +99,9 @@ public class InputHandler {
         if(inputParts.length==1 || inputParts[1].equalsIgnoreCase("around"))
             return playerLookAround(inputParts,world,player);
         return new GameResponse("Unrecognized look modifier: "+inputParts[1]);
+    }
+
+    private static GameResponse examineSelf(Player player){
+        return new GameResponse(player.toString());
     }
 }

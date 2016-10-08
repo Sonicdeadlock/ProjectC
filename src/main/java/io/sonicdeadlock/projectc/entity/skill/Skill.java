@@ -27,7 +27,7 @@ public abstract class Skill extends Attribute{
     public static int getXPForLevel(int level){
         int xp=0;
         for (int i = 0; i < level; i++) {
-            xp = Primes.nextPrime(xp+1);
+            xp += Primes.nextPrime(xp+1);
         }
         return xp*10;
     }
@@ -53,5 +53,11 @@ public abstract class Skill extends Attribute{
     @Override
     public void load(JSONObject saveObject) {
         this.currentXP =saveObject.getInt("currentXP");
+    }
+
+    public String toString(){
+        return getName()+": Current XP: "+currentXP+
+                " Current Level:"+getCurrentLevel()+
+                " XP to next Level: "+(getXpForNextLevel()-currentXP);
     }
 }

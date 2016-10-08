@@ -35,6 +35,14 @@ public class Player extends Entity {
     public Player() {
     }
 
+    public List<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    public List<Skill> getSkills() {
+        return skills;
+    }
+
     @Override
     public JSONObject getSaveObject() {
         JSONObject saveObject = super.getSaveObject();
@@ -172,6 +180,15 @@ public class Player extends Entity {
      */
     public void moveTo(int x,int y){
         move(x-getX(),y-getY());
+    }
+
+
+    public String toString(){
+        StringBuilder response = new StringBuilder();
+        for (Skill skill : skills) {
+            response.append(skill).append("\n");
+        }
+        return response.toString();
     }
 
 
