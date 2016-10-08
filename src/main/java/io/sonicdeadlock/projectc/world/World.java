@@ -138,4 +138,7 @@ public class World implements Searchable {
         return foundEntities;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }

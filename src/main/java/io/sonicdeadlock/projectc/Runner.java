@@ -1,6 +1,7 @@
 package io.sonicdeadlock.projectc;
 
 import io.sonicdeadlock.projectc.runtime.PreInit;
+import io.sonicdeadlock.projectc.ui.gui.GUI;
 import io.sonicdeadlock.projectc.world.World;
 
 /**
@@ -8,7 +9,7 @@ import io.sonicdeadlock.projectc.world.World;
  */
 public class Runner {
     public static void main(String[] args) {
-        PreInit.getInstance().preInit();
-        new World();
+        GUI.main(args);
+
     }
 }

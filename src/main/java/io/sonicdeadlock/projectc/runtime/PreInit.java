@@ -27,6 +27,8 @@ public class PreInit {
     public void preInit(){
         registerEntities();
         registerGenerators();
+        registerAttributes();
+        registerSkills();
     }
 
     private void registerEntities(){
