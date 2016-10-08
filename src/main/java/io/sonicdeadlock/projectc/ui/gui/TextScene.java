@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +25,7 @@ public class TextScene extends Scene {
     private static final Logger LOGGER = LogManager.getLogger(TextScene.class);
     private List<String> currentCharacters = new ArrayList<>();
     private int cursorIndex=-1;
-    private Text sceneText = new Text(10,10,"_");
+    private Text sceneText = new Text(10,15,"_");
     private Scene scene;
     private ObjectProperty<EventHandler<? super ExecuteEvent>> onExecute;
     public TextScene(@NamedArg("root") Parent root) {
@@ -32,6 +33,9 @@ public class TextScene extends Scene {
         scene=root.getScene();
         setOnKeyPressed(this::processKeyEvent);
         sceneText.setStroke(Color.LAWNGREEN);
+        sceneText.setFill(Color.LAWNGREEN);
+        sceneText.setFont(Font.font ("Consolas"));
+
         sceneText.maxHeight(100);
 
     }
@@ -49,6 +53,7 @@ public class TextScene extends Scene {
                 LOGGER.trace("User hit backspace so removing character at cursor index");
                 if(cursorIndex>0)
                 cursorIndex--;
+                updateText();
             }
         }else if(isArrowKey(keyEvent)){
             if(currentCharacters.size()>0){
@@ -67,6 +72,7 @@ public class TextScene extends Scene {
                 LOGGER.info("Todo Move player");
                 //TODO: move player
             }
+            updateText();
         }else if(keyEvent.getCode()==KeyCode.ENTER){
             getOnExecute().handle(new ExecuteEvent(getCurrentText().toString()));
             currentCharacters.clear();
@@ -79,8 +85,9 @@ public class TextScene extends Scene {
                 currentCharacters.add(cursorIndex+1,input);
 
             cursorIndex++;
+            updateText();
+
         }
-        updateText();
 
 
     }

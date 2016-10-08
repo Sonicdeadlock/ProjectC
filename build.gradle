@@ -1,5 +1,5 @@
 group 'ProjectC'
-version '0.0.0.6-Alpha'
+version '0.0.0.7-Alpha'
 
 apply plugin: 'java'
 

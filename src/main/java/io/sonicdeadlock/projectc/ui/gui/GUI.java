@@ -7,6 +7,7 @@ import io.sonicdeadlock.projectc.world.World;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
@@ -25,11 +26,15 @@ public class GUI extends Application {
         loadedWorld = new World();
         Group root = new Group();
         TextScene textScene = new TextScene(root);
-        Text responseText = new Text(10,25,"");
+        Text responseText = new Text(10,30,"");
+        responseText.setFont(Font.font ("Consolas"));
+
         responseText.setStroke(Color.WHITE);
+        responseText.setFill(Color.WHITE);
         root.getChildren().add(responseText);
         textScene.setOnExecute(event -> {
             responseText.setText(InputHandler.handleInput(event,loadedWorld,loadedWorld.getPlayer()).getResponse());
+            loadedWorld.save();
         });
         root.getChildren().add(textScene.getText());
         primaryStage.setScene(textScene);

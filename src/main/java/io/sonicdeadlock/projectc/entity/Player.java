@@ -4,6 +4,7 @@ import io.sonicdeadlock.projectc.entity.attribute.Attribute;
 import io.sonicdeadlock.projectc.entity.attribute.AttributeFactory;
 import io.sonicdeadlock.projectc.entity.skill.Skill;
 import io.sonicdeadlock.projectc.entity.skill.Sprint;
+import io.sonicdeadlock.projectc.util.SpacalUtils;
 import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -105,7 +106,7 @@ public class Player extends Entity {
     }
 
     public Sprint getSprint(){
-        Sprint playerSprint =(Sprint) getSkill(Sprint.getType());
+        Sprint playerSprint =(Sprint) getSkill(Sprint.class);
         if(playerSprint ==null){
             playerSprint = new Sprint();
             skills.add(playerSprint);
@@ -114,9 +115,9 @@ public class Player extends Entity {
     }
 
 
-    private Skill getSkill(String type){
+    private Skill getSkill(Class<? extends Skill> type){
         for (Skill skill : skills) {
-            if(skill.isType(type)){
+            if(type.isAssignableFrom(skill.getClass())){
                 return skill;
             }
         }
@@ -130,6 +131,27 @@ public class Player extends Entity {
             }
         }
         return null;
+    }
+
+    /**
+     *
+     * @param x the delta X of the player
+     * @param y the delta Y of the player
+     */
+    public void move(int x,int y){
+        double distance = SpacalUtils.getDistance(0,0,x,y);
+        getSprint().incrementXP((int)distance);
+        setX(x+getX());
+        setY(y+getY());
+    }
+
+    /**
+     *
+     * @param x the new X of the player
+     * @param y the new Y of the player
+     */
+    public void moveTo(int x,int y){
+        move(x-getX(),y-getY());
     }
 
 
