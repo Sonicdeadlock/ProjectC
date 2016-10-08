@@ -115,9 +115,9 @@ public class World implements Searchable {
         int northBoundChunk = (y-radius)/Chunk.CHUNK_SIZE;
         int southBoundChunk = (y+radius)/Chunk.CHUNK_SIZE;
 
-        for (int chunkX = westBoundChunk; chunkX < eastBoundChunk; chunkX++) {
-            for (int chunkY = northBoundChunk; chunkY < southBoundChunk; chunkY++) {
-                Collections.copy(foundEntities,getChunk(chunkX,chunkY).radialSearch(x,y,radius));
+        for (int chunkX = westBoundChunk; chunkX <= eastBoundChunk; chunkX++) {
+            for (int chunkY = northBoundChunk; chunkY <= southBoundChunk; chunkY++) {
+                getChunk(chunkX,chunkY).radialSearch(x,y,radius).forEach(foundEntities::add);
             }
         }
         return foundEntities;

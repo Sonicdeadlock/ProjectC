@@ -1,18 +1,24 @@
 package io.sonicdeadlock.projectc.ui.gui;
 
+import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.Player;
+import io.sonicdeadlock.projectc.util.UserOutputStream;
 import io.sonicdeadlock.projectc.world.World;
+
+import java.util.List;
 
 /**
  * Created by Alex on 10/8/2016.
  */
 public class InputHandler {
 
-    public static GameResponse handleInput(ExecuteEvent executeEvent,World world,Player player){
+    public static void handleInput(ExecuteEvent executeEvent,World world,Player player){
         String[] parts = executeEvent.getLine().split(" ");
         if(parts[0].isEmpty())
-            return new GameResponse("No Input passed");
-        return handleInput(parts,world,player);
+            UserOutputStream.getInstance().println( new GameResponse("No Input passed").getResponse());
+        else
+            UserOutputStream.getInstance().println(handleInput(parts,world,player).getResponse());
+        UserOutputStream.getInstance().flush();
     }
 
     private static GameResponse handleInput(String[] inputParts,World world,Player player){
@@ -21,6 +27,8 @@ public class InputHandler {
            return movePlayer(inputParts,world,player);
         }else if (action.equalsIgnoreCase("moveTo")){
             return movePlayerTo(inputParts,world,player);
+        }else if(action.equalsIgnoreCase("look")){
+            return playerLook(inputParts,world,player);
         }
         return new GameResponse("Unrecognized action: "+action);
 
@@ -29,6 +37,8 @@ public class InputHandler {
 
     private static GameResponse movePlayer(String[] inputParts,World world,Player player){
         if(inputParts.length>3){
+            if(inputParts[1].equalsIgnoreCase("to"))
+                return new GameResponse("Did you mean \"moveTo\" (no space)");
             return new GameResponse("Unrecognized field: "+inputParts[3]);
         }else if(inputParts.length<2){
             return new GameResponse("Input x and y required ");
@@ -65,5 +75,26 @@ public class InputHandler {
             }
         }
 
+    }
+
+    private static GameResponse playerLookAround(String[] inputParts,World world,Player player){
+        int x = player.getX();
+        int y = player.getY();
+        int radius = player.getEyeSight().getViewDistance();
+
+        List<Entity> entities = world.radialSearch(x, y, radius);
+        player.getEyeSight().incrementXP(entities.size());
+        int printCount = entities.size()>player.getSettings().getLookEntityMaxCount()?player.getSettings().getLookEntityMaxCount():entities.size();
+        StringBuilder response = new StringBuilder();
+        for (int i = 0; i < printCount; i++) {
+            response.append(entities.get(i)).append("\n");
+        }
+        return new GameResponse(response.toString());
+    }
+
+    private static GameResponse playerLook(String[] inputParts,World world, Player player){
+        if(inputParts.length==1 || inputParts[1].equalsIgnoreCase("around"))
+            return playerLookAround(inputParts,world,player);
+        return new GameResponse("Unrecognized look modifier: "+inputParts[1]);
     }
 }

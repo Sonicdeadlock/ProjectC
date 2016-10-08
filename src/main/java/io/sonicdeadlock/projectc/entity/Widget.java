@@ -14,6 +14,8 @@ public class Widget extends Entity {
         super(x, y);
         index=GLOBAL_COUNTER;
         GLOBAL_COUNTER++;
+        addPerformableAction("doFoo");
+        addPerformableAction("doBar");
     }
 
     Widget(){
@@ -30,10 +32,17 @@ public class Widget extends Entity {
         return TYPE;
     }
 
-
+    @Override
+    public void performAction(String action) {
+        super.performAction(action);
+    }
 
     public void load(JSONObject saveObject) {
         super.load(saveObject);
         this.index = saveObject.getInt("index");
+    }
+
+    public String toString(){
+        return "Hey, I'm a widget at "+getX()+","+getY();
     }
 }

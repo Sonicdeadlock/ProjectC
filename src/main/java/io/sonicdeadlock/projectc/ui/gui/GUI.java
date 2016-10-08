@@ -3,6 +3,7 @@ package io.sonicdeadlock.projectc.ui.gui;/**
  */
 
 import io.sonicdeadlock.projectc.runtime.PreInit;
+import io.sonicdeadlock.projectc.util.UserOutputStream;
 import io.sonicdeadlock.projectc.world.World;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -33,9 +34,12 @@ public class GUI extends Application {
         responseText.setFill(Color.WHITE);
         root.getChildren().add(responseText);
         textScene.setOnExecute(event -> {
-            responseText.setText(InputHandler.handleInput(event,loadedWorld,loadedWorld.getPlayer()).getResponse());
+            InputHandler.handleInput(event,loadedWorld,loadedWorld.getPlayer());
             loadedWorld.save();
         });
+
+        UserOutputStream.getInstance().setGuiText(responseText);
+
         root.getChildren().add(textScene.getText());
         primaryStage.setScene(textScene);
         primaryStage.show();

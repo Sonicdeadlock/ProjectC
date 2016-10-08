@@ -2,6 +2,8 @@ package io.sonicdeadlock.projectc.entity;
 
 import io.sonicdeadlock.projectc.entity.attribute.Attribute;
 import io.sonicdeadlock.projectc.entity.attribute.AttributeFactory;
+import io.sonicdeadlock.projectc.entity.attribute.Settings;
+import io.sonicdeadlock.projectc.entity.skill.EyeSight;
 import io.sonicdeadlock.projectc.entity.skill.Skill;
 import io.sonicdeadlock.projectc.entity.skill.Sprint;
 import io.sonicdeadlock.projectc.util.SpacalUtils;
@@ -114,23 +116,41 @@ public class Player extends Entity {
         return playerSprint;
     }
 
+    public EyeSight getEyeSight(){
+        EyeSight playerEyeSight = (EyeSight) getSkill(EyeSight.class);
+        if(playerEyeSight==null){
+            playerEyeSight = new EyeSight();
+            skills.add(playerEyeSight);
+        }
+        return playerEyeSight;
+    }
+
 
     private Skill getSkill(Class<? extends Skill> type){
         for (Skill skill : skills) {
-            if(type.isAssignableFrom(skill.getClass())){
+            if(skill.getClass().isAssignableFrom(type)){
                 return skill;
             }
         }
         return null;
     }
 
-    private Attribute getAttribute(String type){
+    private Attribute getAttribute(Class<? extends Attribute> type){
         for (Attribute attribute : attributes) {
-            if(attribute.isType(type)){
+            if(attribute.getClass().isAssignableFrom(type)){
                 return attribute;
             }
         }
         return null;
+    }
+
+    public Settings getSettings(){
+        Settings settings = (Settings) getAttribute(Settings.class);
+        if (settings == null) {
+            settings = new Settings();
+            this.attributes.add(settings);
+        }
+        return settings;
     }
 
     /**
