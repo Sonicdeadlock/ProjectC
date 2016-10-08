@@ -3,7 +3,7 @@ package io.sonicdeadlock.projectc.world.chunk;
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.EntityFactory;
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
-import io.sonicdeadlock.projectc.util.SpacalUtils;
+import io.sonicdeadlock.projectc.util.SpacialUtils;
 import io.sonicdeadlock.projectc.world.Loadable;
 import io.sonicdeadlock.projectc.world.Searchable;
 import org.json.JSONArray;
@@ -141,7 +141,7 @@ public class Chunk implements Loadable,Searchable{
     }
 
     public List<Entity> radialSearch(int x,int y,int radius){
-        return entities.stream().filter(entity -> SpacalUtils.getDistance(entity.getX(), entity.getY(), x, y) <= radius).collect(Collectors.toList());
+        return entities.stream().filter(entity -> SpacialUtils.getDistance(entity.getX(), entity.getY(), x, y) <= radius).collect(Collectors.toList());
     }
 
     @Override

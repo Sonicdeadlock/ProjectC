@@ -6,7 +6,7 @@ import io.sonicdeadlock.projectc.entity.attribute.Settings;
 import io.sonicdeadlock.projectc.entity.skill.EyeSight;
 import io.sonicdeadlock.projectc.entity.skill.Skill;
 import io.sonicdeadlock.projectc.entity.skill.Sprint;
-import io.sonicdeadlock.projectc.util.SpacalUtils;
+import io.sonicdeadlock.projectc.util.SpacialUtils;
 import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -159,7 +159,7 @@ public class Player extends Entity {
      * @param y the delta Y of the player
      */
     public void move(int x,int y){
-        double distance = SpacalUtils.getDistance(0,0,x,y);
+        double distance = SpacialUtils.getDistance(0,0,x,y);
         getSprint().incrementXP((int)distance);
         setX(x+getX());
         setY(y+getY());

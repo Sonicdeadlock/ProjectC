@@ -69,8 +69,21 @@ public class TextScene extends Scene {
                         break;
                 }
             }else{
-                LOGGER.info("Todo Move player");
-                //TODO: move player
+                String moveText = "move ";
+                switch (keyEvent.getCode()){
+                    case LEFT:
+                        moveText+="-1 0";
+                        break;
+                    case RIGHT:
+                        moveText+="1 0";
+                        break;
+                    case UP:
+                        moveText+="0 -1";
+                        break;
+                    case DOWN:
+                        moveText+="0 1";
+                }
+                getOnExecute().handle(new ExecuteEvent(moveText));
             }
             updateText();
         }else if(keyEvent.getCode()==KeyCode.ENTER){
@@ -93,7 +106,7 @@ public class TextScene extends Scene {
     }
 
     private static boolean isArrowKey(KeyEvent keyEvent){
-        return //keyEvent.getCode() == KeyCode.UP ||keyEvent.getCode()==KeyCode.DOWN ||
+        return keyEvent.getCode() == KeyCode.UP ||keyEvent.getCode()==KeyCode.DOWN ||
                 keyEvent.getCode()==KeyCode.LEFT || keyEvent.getCode()==KeyCode.RIGHT;
     }
 
