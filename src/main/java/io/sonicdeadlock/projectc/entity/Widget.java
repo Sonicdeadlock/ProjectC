@@ -46,4 +46,9 @@ public class Widget extends Entity {
     public String toString(){
         return "Hey, I'm a widget at "+getX()+","+getY();
     }
+
+    @Override
+    public char getMapCharacter() {
+        return 'w';
+    }
 }
