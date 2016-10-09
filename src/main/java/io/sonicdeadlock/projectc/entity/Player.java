@@ -25,6 +25,8 @@ public class Player extends Entity {
     private static final Logger LOGGER = LogManager.getLogger(Player.class);
     private List<Attribute> attributes;
     private List<Skill> skills;
+    private Selectable selected;
+
 
     public Player(int x, int y) {
         super(x, y);
@@ -141,6 +143,14 @@ public class Player extends Entity {
             }
         }
         return null;
+    }
+
+    public Selectable getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Selectable selected) {
+        this.selected = selected;
     }
 
     private Attribute getAttribute(Class<? extends Attribute> type){

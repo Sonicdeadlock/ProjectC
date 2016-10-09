@@ -14,12 +14,13 @@ public class Widget extends Entity {
         super(x, y);
         index=GLOBAL_COUNTER;
         GLOBAL_COUNTER++;
-        addPerformableAction("doFoo");
-        addPerformableAction("doBar");
+
     }
 
     Widget(){
         super();
+        addPerformableAction("doFoo");
+        addPerformableAction("doBar");
     }
 
     public JSONObject getSaveObject() {

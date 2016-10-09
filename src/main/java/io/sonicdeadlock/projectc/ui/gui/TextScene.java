@@ -30,7 +30,7 @@ public class TextScene extends Scene {
     private ObjectProperty<EventHandler<? super ExecuteEvent>> onExecute;
     public TextScene(@NamedArg("root") Parent root) {
         super(root,700,400, Color.BLACK);
-        scene=root.getScene();
+        scene=this;
         setOnKeyPressed(this::processKeyEvent);
         sceneText.setStroke(Color.LAWNGREEN);
         sceneText.setFill(Color.LAWNGREEN);
@@ -111,7 +111,10 @@ public class TextScene extends Scene {
     }
 
     private void updateText(){
+        if(getCurrentText().length()>0)
         sceneText.setText(getCurrentText().insert(cursorIndex+1,'_').toString());
+        else
+            sceneText.setText("_");
     }
 
     private StringBuilder getCurrentText(){

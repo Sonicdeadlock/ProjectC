@@ -10,20 +10,20 @@ import java.util.List;
 /**
  * Created by Alex on 10/5/2016.
  */
-public abstract class Entity implements Loadable{
+public abstract class Entity implements Loadable,Selectable{
     private int x,y;
     private List<String> performableActions=new ArrayList<String>();
     protected static final String EXAMINE_ACTION = "Examine";
     protected static String EXAMINE_TEXT = "Nothing interesting happens";
 
     protected Entity(){
-
+        addPerformableAction(EXAMINE_ACTION);
     }
 
     public Entity(int x, int y) {
+        this();
         this.y = y;
         this.x = x;
-        addPerformableAction(EXAMINE_ACTION);
 
     }
 
@@ -32,7 +32,7 @@ public abstract class Entity implements Loadable{
     }
 
     public void performAction(String action){
-        if(action.equals(EXAMINE_ACTION))
+        if(action.equalsIgnoreCase(EXAMINE_ACTION))
             UserOutputStream.getInstance().println(EXAMINE_TEXT);
     }
 
