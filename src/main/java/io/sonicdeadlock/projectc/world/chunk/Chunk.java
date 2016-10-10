@@ -1,7 +1,7 @@
 package io.sonicdeadlock.projectc.world.chunk;
 
 import io.sonicdeadlock.projectc.entity.Entity;
-import io.sonicdeadlock.projectc.entity.EntityFactory;
+import io.sonicdeadlock.projectc.util.LoaderFactory;
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
 import io.sonicdeadlock.projectc.util.SpacialUtils;
 import io.sonicdeadlock.projectc.world.Loadable;
@@ -123,7 +123,7 @@ public class Chunk implements Loadable,Searchable{
             if(o instanceof JSONObject){
                 JSONObject entitySaveWrapperObject = (JSONObject)o;
                 String type = entitySaveWrapperObject.getString("type");
-                Entity entity = EntityFactory.getInstance().getEntity(type,entitySaveWrapperObject.getJSONObject("entityData"));
+                Entity entity =  LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(type,entitySaveWrapperObject.getJSONObject("entityData"));
                 this.entities.add(entity);
             }
         }

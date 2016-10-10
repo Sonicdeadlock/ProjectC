@@ -1,9 +1,9 @@
 package io.sonicdeadlock.projectc.world;
 
 import io.sonicdeadlock.projectc.entity.Entity;
-import io.sonicdeadlock.projectc.entity.EntityFactory;
 import io.sonicdeadlock.projectc.entity.Player;
 import io.sonicdeadlock.projectc.util.JSONLoader;
+import io.sonicdeadlock.projectc.util.LoaderFactory;
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
 import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import io.sonicdeadlock.projectc.world.chunk.ChunkGenerator;
@@ -44,7 +44,7 @@ public class World implements Searchable {
         if(playerSaveFile.exists()){
             try {
                 JSONObject playerData = JSONLoader.loadJSONObject(playerSaveFile);
-                return (Player) EntityFactory.getInstance().getEntity(Player.getType(),playerData);
+                return (Player) LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(Player.getType(),playerData);
             } catch (IOException e) {
                 LOGGER.error(e);
             }

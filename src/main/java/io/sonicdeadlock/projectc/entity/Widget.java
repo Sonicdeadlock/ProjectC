@@ -17,7 +17,7 @@ public class Widget extends Entity {
 
     }
 
-    Widget(){
+    public Widget(){
         super();
         addPerformableAction("doFoo");
         addPerformableAction("doBar");

@@ -17,7 +17,7 @@ public abstract class Entity implements Loadable,Selectable{
     protected static final String EXAMINE_ACTION = "Examine";
     protected static String EXAMINE_TEXT = "Nothing interesting happens";
 
-    protected Entity(){
+    public Entity(){
         addPerformableAction(EXAMINE_ACTION);
     }
 
