@@ -10,7 +10,7 @@ import java.util.Map;
  * Created by Alex on 10/8/2016.
  */
 public class Settings extends Attribute{
-    private static final String TYPE= "Settings";
+    public static final String TYPE= "Settings";
     private Map<String,String> settings = new HashMap<>();
     private static final String PROPTERTIES_DIR = "player.settings.default",
                                 LOOK_ENTITY_MAX_COUNT="lookEntityMaxCount";
@@ -35,7 +35,7 @@ public class Settings extends Attribute{
         return saveObject;
     }
 
-    public static String getType(){
+    public String getType(){
         return TYPE;
     }
 

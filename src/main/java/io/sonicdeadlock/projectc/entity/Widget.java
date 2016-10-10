@@ -8,7 +8,7 @@ import org.json.JSONObject;
 public class Widget extends Entity {
     private static int GLOBAL_COUNTER =0;
     private int index;
-    private static final String TYPE = "Widget";
+    public static final String TYPE = "Widget";
 
     public Widget(int x, int y) {
         super(x, y);
@@ -29,7 +29,7 @@ public class Widget extends Entity {
         return saveObject;
     }
 
-    public static String getType(){
+    public  String getType(){
         return TYPE;
     }
 

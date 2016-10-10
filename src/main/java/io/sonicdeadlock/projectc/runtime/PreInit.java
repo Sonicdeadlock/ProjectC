@@ -34,8 +34,8 @@ public class PreInit {
 
     private void registerEntities(){
         LOGGER.info("Starting Entity registration");
-        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Widget.getType(),Widget.class);
-        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Player.getType(),Player.class);
+        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Widget.TYPE,Widget.class);
+        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Player.TYPE,Player.class);
         LOGGER.info("Finished Entity registration");
     }
 
@@ -47,14 +47,14 @@ public class PreInit {
 
     private void registerAttributes(){
         LOGGER.info("Starting Attribute Registration");
-        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Settings.getType(),Settings.class);
+        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Settings.TYPE,Settings.class);
         LOGGER.info("Finished Attribute Registration");
     }
 
     private void registerSkills(){
         LOGGER.info("Starting Skill Registration");
-        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Sprint.getType(),Sprint.class);
-        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(EyeSight.getType(),EyeSight.class);
+        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Sprint.TYPE,Sprint.class);
+        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(EyeSight.TYPE,EyeSight.class);
         LOGGER.info("Finished Skill Registration");
     }
 }

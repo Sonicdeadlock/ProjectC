@@ -44,7 +44,7 @@ public class World implements Searchable {
         if(playerSaveFile.exists()){
             try {
                 JSONObject playerData = JSONLoader.loadJSONObject(playerSaveFile);
-                return (Player) LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(Player.getType(),playerData);
+                return (Player) LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(Player.TYPE,playerData);
             } catch (IOException e) {
                 LOGGER.error(e);
             }
@@ -106,6 +106,10 @@ public class World implements Searchable {
                 return loadedChunk;
         }
         return loadChunk(x,y);
+    }
+
+    public void applyRegionEffects(Entity entity){
+        getChunk(entity.getX(),entity.getY()).applyRegionEffects(entity);
     }
 
     public List<Entity> radialSearch(int x,int y,int radius){
