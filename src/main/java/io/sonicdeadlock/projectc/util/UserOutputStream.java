@@ -38,28 +38,4 @@ public class UserOutputStream extends OutputStream {
         this.guiText=text;
     }
 
-    public void print(String s){
-        try {
-            write(s.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void newLine(){
-        print("\n");
-    }
-
-    public void println(String s){
-        print(s);
-        newLine();
-    }
-
-    public void print(Object o){
-        print(o.toString());
-    }
-
-    public void println(Object o){
-        println(o.toString());
-    }
 }

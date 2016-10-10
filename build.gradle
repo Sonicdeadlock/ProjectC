@@ -1,5 +1,5 @@
 group 'ProjectC'
-version '0.0.0.12-Alpha'
+version '0.0.0.13-Alpha'
 
 apply plugin: 'java'
 
@@ -20,7 +20,7 @@ dependencies {
 
 jar{
     manifest {
-        attributes 'Main-Class': 'io.sonicdeadlock.projectc.Runner'
+        attributes 'Main-Class': 'io.sonicdeadlock.projectc.ui.cli.NumbersConsole'
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
