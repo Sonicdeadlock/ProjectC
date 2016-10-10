@@ -1,5 +1,5 @@
 group 'ProjectC'
-version '0.0.0.13-Alpha'
+version '0.0.0.'+(file('BUILD_NUMBER').text.toInteger()+1)+'-Alpha'
 
 apply plugin: 'java'
 
@@ -27,4 +27,10 @@ jar{
     }
 }
 
+task updateBuildNumber << {
+    def buildNumberFile = file('BUILD_NUMBER')
+    buildNumberFile.text =buildNumberFile.text.toInteger()+1
+}
+
+jar.finalizedBy updateBuildNumber
 
