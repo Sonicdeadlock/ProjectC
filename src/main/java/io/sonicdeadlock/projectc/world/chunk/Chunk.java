@@ -194,4 +194,14 @@ public class Chunk implements Loadable,Searchable{
         }
         this.regions.add(region);
     }
+
+    public List<Region> getRegions(int x,int y){
+       return regions.stream().filter(region -> region.isInRange(x, y)).collect(Collectors.toList());
+    }
+
+    public void applyRegionEffects(Entity e){
+        for (Region region : getRegions(e.getX(), e.getY())) {
+            region.applyEffect(e);
+        }
+    }
 }

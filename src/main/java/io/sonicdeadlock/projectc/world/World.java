@@ -108,6 +108,10 @@ public class World implements Searchable {
         return loadChunk(x,y);
     }
 
+    public void applyRegionEffects(Entity entity){
+        getChunk(entity.getX(),entity.getY()).applyRegionEffects(entity);
+    }
+
     public List<Entity> radialSearch(int x,int y,int radius){
         List<Entity> foundEntities = new ArrayList<>();
         int westBoundChunk = (x-radius)/Chunk.CHUNK_SIZE;
