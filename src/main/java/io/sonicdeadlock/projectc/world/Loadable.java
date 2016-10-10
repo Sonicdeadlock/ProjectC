@@ -8,4 +8,5 @@ import org.json.JSONObject;
 public interface Loadable {
     void load(JSONObject saveObject);
     JSONObject getSaveObject();
+    String getType();
 }

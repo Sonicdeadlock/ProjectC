@@ -6,7 +6,7 @@ import org.json.JSONObject;
  * Created by Alex on 10/7/2016.
  */
 public class Sprint extends Skill {
-    private static final String TYPE= "Sprint";
+    public static final String TYPE= "Sprint";
     @Override
     public String getName() {
         return TYPE;
@@ -22,7 +22,7 @@ public class Sprint extends Skill {
         return super.getSaveObject();
     }
 
-    public static String getType(){
+    public String getType(){
         return TYPE;
     }
 }

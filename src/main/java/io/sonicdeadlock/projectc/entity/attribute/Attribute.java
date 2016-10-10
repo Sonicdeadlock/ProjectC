@@ -7,9 +7,6 @@ import io.sonicdeadlock.projectc.world.Loadable;
  */
 public abstract class Attribute implements Loadable {
 
-    public static String getType(){
-        throw new UnsupportedOperationException ();
-    }
 
     public boolean isType(String type){
         return getType().equals(type);

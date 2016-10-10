@@ -21,7 +21,7 @@ import java.util.List;
  * Created by Alex on 10/5/2016.
  */
 public class Player extends Entity {
-    private static final String TYPE = "Player";
+    public static final String TYPE = "Player";
     private static final Logger LOGGER = LogManager.getLogger(Player.class);
     private List<Attribute> attributes;
     private List<Skill> skills;
@@ -52,9 +52,9 @@ public class Player extends Entity {
         for (Attribute attribute : attributes) {
             JSONObject attributeWrapper = new JSONObject();
             try {
-                attributeWrapper.put("type",attribute.getClass().getMethod("getType").invoke(null));
-            } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-               LOGGER.error("Error getting attribute type ",e);
+                attributeWrapper.put("type",attribute.getClass().getField("TYPE").get(null));
+            }  catch (NoSuchFieldException  | IllegalAccessException e) {
+                LOGGER.error("Error getting attribute type ",e);
             }
             attributeWrapper.put("attribute",attribute.getSaveObject());
             saveAttributes.put(attributeWrapper);
@@ -64,8 +64,8 @@ public class Player extends Entity {
         for (Skill skill : skills) {
             JSONObject skillWrapper = new JSONObject();
             try {
-                skillWrapper.put("type",skill.getClass().getMethod("getType").invoke(null));
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                skillWrapper.put("type",skill.getClass().getField("TYPE").get(null));
+            } catch (NoSuchFieldException  | IllegalAccessException e) {
                 LOGGER.error("Error getting skill type ",e);
             }
             skillWrapper.put("skill",skill.getSaveObject());
@@ -106,7 +106,7 @@ public class Player extends Entity {
         }
     }
 
-    public static String getType(){
+    public String getType(){
         return TYPE;
     }
 

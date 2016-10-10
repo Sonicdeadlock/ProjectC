@@ -70,9 +70,6 @@ public abstract class Entity implements Loadable,Selectable{
         this.y = saveObject.getInt("y");
     }
 
-    public static String getType(){
-        throw new UnsupportedOperationException();
-    }
 
     public char getMapCharacter(){
         throw new UnsupportedOperationException();

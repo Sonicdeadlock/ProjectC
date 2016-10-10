@@ -6,10 +6,12 @@ import io.sonicdeadlock.projectc.util.PropertiesLoader;
 import io.sonicdeadlock.projectc.util.SpacialUtils;
 import io.sonicdeadlock.projectc.world.Loadable;
 import io.sonicdeadlock.projectc.world.Searchable;
+import io.sonicdeadlock.projectc.world.region.Region;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,17 +22,21 @@ import java.util.stream.Collectors;
 public class Chunk implements Loadable,Searchable{
     public static final int CHUNK_SIZE;
     private List<Entity> entities;
+    private List<Region> regions;
     private int x,y;
+    public static final String TYPE = "Chunk";
+    private static final Logger LOGGER = LogManager.getLogger(Chunk.class);
     static{
         CHUNK_SIZE = Integer.parseInt(PropertiesLoader.getProperty("chunk","size"));
     }
 
     public Chunk(int x, int y) {
-        this(new ArrayList<Entity>(),x,y);
+        this(new ArrayList<>(),new ArrayList<>(),x,y);
     }
 
-    public Chunk(List<Entity> entities, int x, int y) {
+    public Chunk(List<Entity> entities,List<Region> regions, int x, int y) {
         this.entities = entities;
+        this.regions = regions;
         this.x = x;
         this.y = y;
     }
@@ -98,18 +104,27 @@ public class Chunk implements Loadable,Searchable{
         for (Entity entity : this.entities) {
             JSONObject entityWrappedObject = new JSONObject();
             try {
-                entityWrappedObject.put("type",entity.getClass().getMethod("getType").invoke(null));
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                entityWrappedObject.put("type",entity.getClass().getField("TYPE").get(null));
+            }catch (NoSuchFieldException  | IllegalAccessException e) {
+                LOGGER.error("Error getting entity type ",e);
             }
             entityWrappedObject.put("entityData",entity.getSaveObject());
             entities.put(entityWrappedObject);
         }
+        JSONArray regions = new JSONArray();
+        for (Region region : this.regions) {
+            JSONObject regionWrappedObject = new JSONObject();
+            try {
+                regionWrappedObject.put("type",region.getClass().getField("TYPE").get(null));
+            }catch (NoSuchFieldException  | IllegalAccessException e) {
+                LOGGER.error("Error getting entity type ",e);
+            }
+            regionWrappedObject.put("region",region.getSaveObject());
+            regions.put(regionWrappedObject);
+        }
+
         saveObject.put("entities",entities);
+        saveObject.put("regions",regions);
         saveObject.put("x",x);
         saveObject.put("y",y);
         saveObject.put("entityCount",getEntityCount());
@@ -117,14 +132,28 @@ public class Chunk implements Loadable,Searchable{
 
     }
 
+    @Override
+    public String getType() {
+        return TYPE;
+    }
+
     public void load(JSONObject saveObject) {
-        this.entities = new ArrayList<Entity>(saveObject.getInt("entityCount"));
+        this.entities = new ArrayList<>(saveObject.getInt("entityCount"));
+        this.regions = new ArrayList<>();
         for (Object o : saveObject.getJSONArray("entities")) {
             if(o instanceof JSONObject){
                 JSONObject entitySaveWrapperObject = (JSONObject)o;
                 String type = entitySaveWrapperObject.getString("type");
                 Entity entity =  LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(type,entitySaveWrapperObject.getJSONObject("entityData"));
                 this.entities.add(entity);
+            }
+        }
+        for (Object o : saveObject.getJSONArray("regions")) {
+            if(o instanceof JSONObject){
+                JSONObject regionSaveWrappedObject = ((JSONObject) o);
+                String type = regionSaveWrappedObject.getString("type");
+                Region region = LoaderFactory.getRegionLoaderFactoryInstance().getLoadable(type,regionSaveWrappedObject.getJSONObject("region"));
+                this.regions.add(region);
             }
         }
     }
@@ -154,5 +183,15 @@ public class Chunk implements Loadable,Searchable{
                 foundEntities.add(entity);
         }
         return foundEntities;
+    }
+
+    public void addRegion(Region region){
+        if(!(region.isInRange(getEastBound(),getNorthBound()) ||
+                region.isInRange(getWestBound(),getSouthBound())||
+                region.isInRange(getWestBound(),getNorthBound())||
+                region.isInRange(getEastBound(),getSouthBound()))){
+            throw new IllegalArgumentException("The region passed does not fit inside of this Chunk");
+        }
+        this.regions.add(region);
     }
 }

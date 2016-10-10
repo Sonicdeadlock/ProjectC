@@ -44,7 +44,7 @@ public class World implements Searchable {
         if(playerSaveFile.exists()){
             try {
                 JSONObject playerData = JSONLoader.loadJSONObject(playerSaveFile);
-                return (Player) LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(Player.getType(),playerData);
+                return (Player) LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(Player.TYPE,playerData);
             } catch (IOException e) {
                 LOGGER.error(e);
             }
