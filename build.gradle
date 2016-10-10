@@ -1,5 +1,5 @@
 group 'ProjectC'
-version '0.0.0.12-Alpha'
+version '0.0.0.'+(file('BUILD_NUMBER').text.toInteger()+1)+'-Alpha'
 
 apply plugin: 'java'
 
@@ -21,11 +21,17 @@ dependencies {
 
 jar{
     manifest {
-        attributes 'Main-Class': 'io.sonicdeadlock.projectc.Runner'
+        attributes 'Main-Class': 'io.sonicdeadlock.projectc.ui.cli.NumbersConsole'
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
 
+task updateBuildNumber << {
+    def buildNumberFile = file('BUILD_NUMBER')
+    buildNumberFile.text =buildNumberFile.text.toInteger()+1
+}
+
+jar.finalizedBy updateBuildNumber
 

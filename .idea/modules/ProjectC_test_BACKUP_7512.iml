@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< .merge_file_a07428
+<<<<<<< HEAD
 <module external.linked.project.id="ProjectC:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ProjectC" external.system.module.type="sourceSet" external.system.module.version="0.0.0.12-Alpha" type="JAVA_MODULE" version="4">
 =======
 <module external.linked.project.id="ProjectC:test" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ProjectC" external.system.module.type="sourceSet" external.system.module.version="0.0.0.14-Alpha" type="JAVA_MODULE" version="4">
->>>>>>> .merge_file_a05908
+>>>>>>> 8a42bcd397d161cd77c91d8e3318d5a06fcdc531
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output-test url="file://$MODULE_DIR$/../../build/classes/test" />
     <exclude-output />

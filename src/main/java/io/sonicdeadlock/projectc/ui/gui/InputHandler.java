@@ -3,6 +3,7 @@ package io.sonicdeadlock.projectc.ui.gui;
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.Player;
 import io.sonicdeadlock.projectc.util.UserOutputStream;
+import io.sonicdeadlock.projectc.util.UserPrintStream;
 import io.sonicdeadlock.projectc.world.World;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public class InputHandler {
     public static void handleInput(ExecuteEvent executeEvent,World world,Player player){
         String[] parts = executeEvent.getLine().split(" ");
         if(parts[0].isEmpty())
-            UserOutputStream.getInstance().println( new GameResponse("No Input passed").getResponse());
+            UserPrintStream.getInstance().println( new GameResponse("No Input passed").getResponse());
         else
-            UserOutputStream.getInstance().println(handleInput(parts,world,player).getResponse());
+            UserPrintStream.getInstance().println(handleInput(parts,world,player).getResponse());
         UserOutputStream.getInstance().flush();
     }
 
