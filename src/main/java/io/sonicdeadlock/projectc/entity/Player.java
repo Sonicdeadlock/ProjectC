@@ -5,6 +5,7 @@ import io.sonicdeadlock.projectc.entity.attribute.Settings;
 import io.sonicdeadlock.projectc.entity.skill.EyeSight;
 import io.sonicdeadlock.projectc.entity.skill.Skill;
 import io.sonicdeadlock.projectc.entity.skill.Sprint;
+import io.sonicdeadlock.projectc.item.Item;
 import io.sonicdeadlock.projectc.util.LoaderFactory;
 import io.sonicdeadlock.projectc.util.SpacialUtils;
 import io.sonicdeadlock.projectc.world.chunk.Chunk;
@@ -26,12 +27,14 @@ public class Player extends Entity {
     private List<Attribute> attributes;
     private List<Skill> skills;
     private Selectable selected;
+    private List<Item> inventory;
 
 
     public Player(int x, int y) {
         super(x, y);
         attributes = new ArrayList<>();
         skills = new ArrayList<>();
+        inventory = new ArrayList<>();
     }
 
     public Player() {
@@ -49,6 +52,7 @@ public class Player extends Entity {
     public JSONObject getSaveObject() {
         JSONObject saveObject = super.getSaveObject();
         JSONArray saveAttributes = new JSONArray();
+        JSONArray saveInventory = new JSONArray();
         for (Attribute attribute : attributes) {
             JSONObject attributeWrapper = new JSONObject();
             try {
@@ -72,6 +76,17 @@ public class Player extends Entity {
             saveSkills.put(skillWrapper);
         }
         saveObject.put("skills",saveSkills);
+        for (Item item : inventory) {
+            JSONObject itemWrapper = new JSONObject();
+            try {
+                itemWrapper.put("type",item.getClass().getField("TYPE").get(null));
+            } catch (NoSuchFieldException  | IllegalAccessException e) {
+                LOGGER.error("Error getting item type ",e);
+            }
+            itemWrapper.put("item",item.getSaveObject());
+            saveInventory.put(itemWrapper);
+        }
+        saveObject.put("inventory",saveInventory);
         return saveObject;
     }
 
@@ -80,8 +95,10 @@ public class Player extends Entity {
         super.load(saveObject);
         JSONArray saveAttributes = saveObject.getJSONArray("attributes");
         JSONArray saveSkills = saveObject.getJSONArray("skills");
+        JSONArray saveInventory = saveObject.getJSONArray("inventory");
         this.attributes = new ArrayList<>(saveAttributes.length());
         this.skills = new ArrayList<>(saveSkills.length());
+        this.inventory = new ArrayList<>(saveInventory.length());
         for (Object o : saveAttributes) {
             if(o instanceof JSONObject){
                 JSONObject saveAttribute = (JSONObject)o;
@@ -95,19 +112,33 @@ public class Player extends Entity {
                 JSONObject saveSkill = (JSONObject)o;
                 try{
                     this.skills.add((Skill) LoaderFactory.getAttributeLoaderFactoryInstance().getLoadable(saveSkill.getString("type"),saveSkill.getJSONObject("skill")));
-
                 }catch (ClassCastException cce){
                     LOGGER.error("Normal attribute in save skills",cce);
                 }
-                
             }else{
                 LOGGER.debug("Object in save skills that isn't a JSONObject --- "+o.getClass());
+            }
+        }
+        for (Object o : saveInventory) {
+            if(o instanceof JSONObject){
+                JSONObject saveItem = (JSONObject)o;
+                try{
+                    this.inventory.add(LoaderFactory.getItemLoaderFactoryInstance().getLoadable(saveItem.getString("type"),saveItem.getJSONObject("item")));
+                }catch (ClassCastException cce){
+                    LOGGER.error("Normal attribute in save item",cce);
+                }
+            }else{
+                LOGGER.debug("Object in save inventory that isn't a JSONObject --- "+o.getClass());
             }
         }
     }
 
     public String getType(){
         return TYPE;
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
     }
 
     public int getChunkX(){

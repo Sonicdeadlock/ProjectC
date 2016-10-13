@@ -2,6 +2,7 @@ package io.sonicdeadlock.projectc.util;
 
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.attribute.Attribute;
+import io.sonicdeadlock.projectc.item.Item;
 import io.sonicdeadlock.projectc.world.Loadable;
 import io.sonicdeadlock.projectc.world.region.Region;
 import io.sonicdeadlock.projectc.world.region.effect.Effect;
@@ -20,11 +21,13 @@ public class LoaderFactory<T extends Loadable> {
 
     private Map<String,Class<? extends T>> loadableTypes = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(LoaderFactory.class);
-    private static LoaderFactory<Entity> entityLoaderFactoryInstance = new LoaderFactory<>();
-    private static LoaderFactory<Attribute> attributeLoaderFactoryInstance = new LoaderFactory<>();
-    private static LoaderFactory<Effect> effectLoaderFactoryInstance = new LoaderFactory<>();
-    private static LoaderFactory<FalloffFunction> falloffFunctionLoaderFactoryInstance = new LoaderFactory<>();
-    private static LoaderFactory<Region> regionLoaderFactoryInstance = new LoaderFactory<>();
+    private final  static LoaderFactory<Entity> entityLoaderFactoryInstance = new LoaderFactory<>();
+    private final  static LoaderFactory<Attribute> attributeLoaderFactoryInstance = new LoaderFactory<>();
+    private final  static LoaderFactory<Effect> effectLoaderFactoryInstance = new LoaderFactory<>();
+    private final  static LoaderFactory<FalloffFunction> falloffFunctionLoaderFactoryInstance = new LoaderFactory<>();
+    private final static LoaderFactory<Region> regionLoaderFactoryInstance = new LoaderFactory<>();
+    private final static LoaderFactory<Item> itemLoaderFactoryInstance = new LoaderFactory<>();
+
 
     private LoaderFactory(){
 
@@ -44,9 +47,7 @@ public class LoaderFactory<T extends Loadable> {
             T newLoadable = clazz.newInstance();
             newLoadable.load(saveObject);
             return newLoadable;
-        } catch (InstantiationException e) {
-            LOGGER.error("Error when creating Loadable: "+clazz.getName(),e);
-        } catch (IllegalAccessException e) {
+        } catch (InstantiationException | IllegalAccessException e) {
             LOGGER.error("Error when creating Loadable: "+clazz.getName(),e);
         }
         return null;
@@ -70,5 +71,9 @@ public class LoaderFactory<T extends Loadable> {
 
     public static LoaderFactory<Region> getRegionLoaderFactoryInstance() {
         return regionLoaderFactoryInstance;
+    }
+
+    public static LoaderFactory<Item> getItemLoaderFactoryInstance() {
+        return itemLoaderFactoryInstance;
     }
 }
