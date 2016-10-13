@@ -67,10 +67,15 @@ public class RayCaster {
         private Point getNextPoint(){
             double deltaX = Math.cos(direction);
             double deltaY = Math.sin(direction);
+            Point p;
             if (previousPoint != null) {
-                previousPoint = new Point(previousPoint.getX()+deltaX,previousPoint.getY()+deltaY);
+                p = new Point(previousPoint.getX()+deltaX,previousPoint.getY()+deltaY);
             }else{
-                previousPoint = new Point(x+deltaX,y+deltaY);
+                p = new Point(x+deltaX,y+deltaY);
+            }
+            if(p.equals(previousPoint)){
+                previousPoint =p;
+                return getNextPoint();
             }
             return previousPoint;
         }
@@ -95,6 +100,17 @@ public class RayCaster {
 
         public double getY() {
             return y;
+        }
+
+        @Override
+        public boolean equals(Object object){
+            if (object == null) {
+                return false;
+            }
+            if(!(object instanceof Point))
+                return false;
+            Point p = (Point) object;
+            return this.x==p.getX() && this.y==p.getY();
         }
     }
 
