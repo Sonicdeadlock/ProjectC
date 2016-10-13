@@ -39,6 +39,10 @@ public class RayCaster {
         return matching;
     }
 
+    public static List<Entity> rayCastCircle(int x,int y,int radius,World world,Config config){
+        return world.radialSearch(x,y,radius).stream().filter(entity -> checkConditions(entity,config)).collect(Collectors.toList());
+    }
+
     private static boolean checkConditions(Entity entity,Config config){
         if (entity != null && config.isCheckEntityExists()) {
             return true;
