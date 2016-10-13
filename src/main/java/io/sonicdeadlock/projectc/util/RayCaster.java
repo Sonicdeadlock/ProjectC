@@ -3,7 +3,9 @@ package io.sonicdeadlock.projectc.util;
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.world.World;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Alex on 10/12/2016.
@@ -26,18 +28,15 @@ public class RayCaster {
      * @param config
      * @return
      */
-    public static Entity castRay(int x,int y,double direction,double distance,World world,Config config){
+    public static List<Entity> castRay(int x,int y,double direction,double distance,World world,Config config){
         Ray r = new Ray(direction,distance,x,y);
+        List<Entity> matching = new ArrayList<>();
         while (r.hasNextPoint()){
             Point point = r.getNextPoint();
             List<Entity> entities = world.pointSearch(((int) point.getX()), ((int) point.getY()));
-            for (Entity entity : entities) {
-                if (checkConditions(entity,config)) {
-                    return entity;
-                }
-            }
+            matching.addAll(entities.stream().filter(entity -> checkConditions(entity, config)).collect(Collectors.toList()));
         }
-        return null;
+        return matching;
     }
 
     private static boolean checkConditions(Entity entity,Config config){
