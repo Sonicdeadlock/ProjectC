@@ -185,6 +185,11 @@ public class Chunk implements Loadable,Searchable{
         return foundEntities;
     }
 
+    @Override
+    public List<Entity> pointSearch(int x,int y){
+        return entities.stream().filter(entity -> entity.getX()==x&&entity.getY()==y).collect(Collectors.toList());
+    }
+
     public void addRegion(Region region){
         if(!(region.isInRange(getEastBound(),getNorthBound()) ||
                 region.isInRange(getWestBound(),getSouthBound())||

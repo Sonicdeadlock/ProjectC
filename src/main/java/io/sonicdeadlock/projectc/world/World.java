@@ -100,6 +100,13 @@ public class World implements Searchable {
         }
     }
 
+    /**
+     *
+     * @param x the chunk X not the global X
+     * @param y the chunk Y not the global Y
+     * @return the chunk at that point
+     * This method returns (and possibly loads) the chunk when passed a point on the chunk grid
+     */
     public Chunk getChunk(int x,int y){
         for (Chunk loadedChunk : loadedChunks) {
             if(loadedChunk.getX()==x && loadedChunk.getY()==y)
@@ -140,6 +147,11 @@ public class World implements Searchable {
             }
         }
         return foundEntities;
+    }
+
+    @Override
+    public List<Entity> pointSearch(int x,int y){
+        return getChunk(x/Chunk.CHUNK_SIZE,y/Chunk.CHUNK_SIZE).pointSearch(x,y);
     }
 
     public Player getPlayer() {
