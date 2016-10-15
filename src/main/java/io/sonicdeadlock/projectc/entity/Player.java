@@ -7,7 +7,9 @@ import io.sonicdeadlock.projectc.entity.skill.Skill;
 import io.sonicdeadlock.projectc.entity.skill.Sprint;
 import io.sonicdeadlock.projectc.item.Item;
 import io.sonicdeadlock.projectc.util.LoaderFactory;
+import io.sonicdeadlock.projectc.util.RayCaster;
 import io.sonicdeadlock.projectc.util.SpacialUtils;
+import io.sonicdeadlock.projectc.world.World;
 import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -230,6 +232,15 @@ public class Player extends Entity {
             response.append(skill).append("\n");
         }
         return response.toString();
+    }
+
+    public boolean canMoveToPoint(int x, int y, World world){
+        int deltaX = getX()-x;
+        int deltaY = y-getY();
+        double direction = Math.atan2(deltaY,deltaX);
+        double distance = Math.abs(SpacialUtils.getDistance(getX(), getY(), x, y));
+        List entities = RayCaster.castRay(getX(),getY(),direction,distance,world,RayCaster.CHECK_ENTITY_EXISTS);
+        return entities.size()>0;
     }
 
 

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class RayCaster {
 
-    private static final Config CHECK_ENTITY_EXISTS = new Config();
+    public static final Config CHECK_ENTITY_EXISTS = new Config();
     public static final double DIRECTION_NORTH=Math.PI*.5,DIRECTION_SOUTH= Math.PI*1.5,DIRECTION_EAST=0,DIRECTION_WEST=Math.PI;
     static {
         CHECK_ENTITY_EXISTS.setCheckEntityExists(true);
