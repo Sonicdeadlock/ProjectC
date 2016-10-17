@@ -10,4 +10,5 @@ import java.util.List;
 public interface Searchable {
     List<Entity> radialSearch(int x,int y,int radius);
     List<Entity> squareSearch(int x,int y,int width,int height);
+    List<Entity> pointSearch(int x,int y);
 }
