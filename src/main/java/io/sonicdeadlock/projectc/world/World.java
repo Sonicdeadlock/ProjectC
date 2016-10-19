@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -80,7 +81,9 @@ public class World implements Searchable {
     private void savePlayer(){
         File playerSaveFile = new File(PropertiesLoader.getProperty("saveLocation") + PropertiesLoader.getProperty("player","saveFileName"));
         try {
-            this.player.getSaveObject().write(new FileWriter(playerSaveFile)).flush();
+            Writer w  = this.player.getSaveObject().write(new FileWriter(playerSaveFile));
+            w.flush();
+            w.close();
         } catch (IOException e) {
             LOGGER.error("Error Saving Player",e);
         }
@@ -94,7 +97,9 @@ public class World implements Searchable {
 
     private void saveChunk(Chunk chunk){
         try {
-            chunk.getSaveObject().write(new FileWriter(new File(Chunk.getSaveLocation(chunk.getX(),chunk.getY())))).flush();
+            Writer w = chunk.getSaveObject().write(new FileWriter(new File(Chunk.getSaveLocation(chunk.getX(),chunk.getY()))));
+            w.flush();
+            w.close();
         } catch (IOException e) {
             LOGGER.error("Error Saving Chunk",e);
         }

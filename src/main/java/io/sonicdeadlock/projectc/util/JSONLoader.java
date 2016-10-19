@@ -24,6 +24,7 @@ public class JSONLoader {
         while ((line=br.readLine())!=null){
             source.append(line);
         }
+        br.close();
         return new JSONObject(source.toString());
 
     }
