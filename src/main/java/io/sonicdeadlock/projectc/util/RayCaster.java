@@ -74,9 +74,9 @@ public class RayCaster {
                 p = new Point(x+deltaX,y+deltaY);
             }
             if(p.equals(previousPoint)){
-                previousPoint =p;
                 return getNextPoint();
             }
+            previousPoint =p;
             return previousPoint;
         }
 
