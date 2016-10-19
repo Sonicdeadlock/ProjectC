@@ -240,7 +240,7 @@ public class Player extends Entity {
         double direction = Math.atan2(deltaY,deltaX);
         double distance = Math.abs(SpacialUtils.getDistance(getX(), getY(), x, y));
         List entities = RayCaster.castRay(getX(),getY(),direction,distance,world,RayCaster.CHECK_ENTITY_EXISTS);
-        return entities.size()>0;
+        return entities.size()==0;
     }
 
 
