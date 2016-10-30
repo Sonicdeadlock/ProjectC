@@ -1,7 +1,5 @@
 package io.sonicdeadlock.projectc.util;
 
-import javafx.scene.text.Text;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -11,7 +9,6 @@ import java.io.PrintStream;
  */
 public class UserOutputStream extends OutputStream {
     private static UserOutputStream ourInstance = new UserOutputStream();
-    private Text guiText;
     private StringBuilder text = new StringBuilder(),flash= new StringBuilder();
 
 
@@ -37,9 +34,4 @@ public class UserOutputStream extends OutputStream {
     public void write(int b) {
         text.append((char)b);
     }
-
-    public void setGuiText(Text text){
-        this.guiText=text;
-    }
-
 }
