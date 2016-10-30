@@ -43,6 +43,8 @@ public abstract class Item implements Loadable,Selectable{
             UserPrintStream.getInstance().println(EXAMINE_TEXT);
         else if(action.equals(REMOVE_ACTION)){
             player.getInventory().remove(this);
+            if(player.getSelected().equals(this))
+                player.setSelected(null);
         }
     }
 
