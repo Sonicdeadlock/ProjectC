@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jboss test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="js/controller.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata|Source+Code+Pro|Share+Tech+Mono" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <p>hello world1</p>
+    <div ng-app="userApp">
+        <div ng-controller="gameController">
+            <h2>Map</h2>
+            <p>({{player.x}},{{player.y}})</p>
+            <div>
+                <p ng-repeat="row in map">
+                    <span ng-repeat="cell in row  track by $index">
+                        <span>
+                            {{(cell!=null && cell!=undefined)?cell.mapCharacter:"&nbsp;"}}
+                        </span>
+                    </span>
+
+                </p>
+            </div>
+            <div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <th>Skill</th>
+                            <th>Current Level</th>
+                            <th>Remaining XP</th>
+                        </tr>
+                    </tbody>
+                    <tr>
+                        <td>Eye Sight</td>
+                        <td>{{player.eyeSight.currentLevel}}</td>
+                        <td>{{player.eyeSight.xpForNextLevel-player.eyeSight.currentXP}}</td>
+                    </tr>
+                    <tr>
+                        <td>Sprint</td>
+                        <td>{{player.sprint.currentLevel}}</td>
+                        <td>{{player.sprint.xpForNextLevel-player.sprint.currentXP}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

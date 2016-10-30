@@ -2,6 +2,8 @@ package io.sonicdeadlock.projectc.util;
 
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.world.World;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ public class RayCaster {
 
     public static final Config CHECK_ENTITY_EXISTS = new Config();
     public static final double DIRECTION_NORTH=Math.PI*.5,DIRECTION_SOUTH= Math.PI*1.5,DIRECTION_EAST=0,DIRECTION_WEST=Math.PI;
+    private static final Logger LOGGER = LogManager.getLogger(RayCaster.class);
     static {
         CHECK_ENTITY_EXISTS.setCheckEntityExists(true);
     }
@@ -33,7 +36,9 @@ public class RayCaster {
         List<Entity> matching = new ArrayList<>();
         while (r.hasNextPoint()){
             Point point = r.getNextPoint();
+            LOGGER.debug("Casting ray at point "+point);
             List<Entity> entities = world.pointSearch(((int) point.getX()), ((int) point.getY()));
+            LOGGER.debug("Found "+entities.size()+" entities at point");
             matching.addAll(entities.stream().filter(entity -> checkConditions(entity, config)).collect(Collectors.toList()));
         }
         return matching;
@@ -111,6 +116,10 @@ public class RayCaster {
                 return false;
             Point p = (Point) object;
             return this.x==p.getX() && this.y==p.getY();
+        }
+
+        public String toString(){
+            return "("+x+","+y+")";
         }
     }
 

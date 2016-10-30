@@ -17,7 +17,7 @@ public abstract class Skill extends Attribute{
         while (getXPForLevel(level)<currentXP){
             level++;
         }
-        return level;
+        return level-1;
     }
 
     public int getXpForNextLevel(){

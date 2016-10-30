@@ -26,12 +26,8 @@ import java.util.List;
 public class World implements Searchable {
     private static final Logger LOGGER = LogManager.getLogger(World.class);
 
-//    The loaded chunks around the user
-//    |0|1|2|
-//    |3|4|5|
-//    |6|7|8|
-//    The user should be on index 4
-    private Chunk[] loadedChunks =new Chunk[9];
+
+    private List<Chunk> loadedChunks =new ArrayList<>();
     private Player player;
 
     public World(){
@@ -58,19 +54,22 @@ public class World implements Searchable {
     private void loadChunks(){
         for (int x = -1 , index=0; x <= 1; x++) {
             for (int y = -1; y <= 1; y++,index++) {
-                loadedChunks[index] = loadChunk(x+player.getChunkX(),y+player.getChunkY());
+                loadChunk(x+player.getChunkX(),y+player.getChunkY());
             }
         }
     }
 
     private Chunk loadChunk(int x,int y){
+        Chunk c;
         if((new File(Chunk.getSaveLocation(x,y))).exists()){
-            return ChunkLoader.getInstance().loadChunk(x,y);
+            c= ChunkLoader.getInstance().loadChunk(x,y);
         }else{
-            Chunk c= ChunkGenerator.getInstance().generateChunk(x,y);
+             c= ChunkGenerator.getInstance().generateChunk(x,y);
             saveChunk(c);
-            return c;
+
         }
+        loadedChunks.add(c);
+        return c;
     }
 
     public void save(){
@@ -90,9 +89,7 @@ public class World implements Searchable {
     }
 
     private void saveChunks(){
-        for (Chunk loadedChunk : this.loadedChunks) {
-            saveChunk(loadedChunk);
-        }
+        this.loadedChunks.forEach(this::saveChunk);
     }
 
     private void saveChunk(Chunk chunk){
@@ -126,10 +123,10 @@ public class World implements Searchable {
 
     public List<Entity> radialSearch(int x,int y,int radius){
         List<Entity> foundEntities = new ArrayList<>();
-        int westBoundChunk = (x-radius)/Chunk.CHUNK_SIZE;
-        int eastBoundChunk = (x+radius)/Chunk.CHUNK_SIZE;
-        int northBoundChunk = (y-radius)/Chunk.CHUNK_SIZE;
-        int southBoundChunk = (y+radius)/Chunk.CHUNK_SIZE;
+        int westBoundChunk = Math.floorDiv(x-radius,Chunk.CHUNK_SIZE);
+        int eastBoundChunk = Math.floorDiv(x+radius,Chunk.CHUNK_SIZE);
+        int northBoundChunk = Math.floorDiv(y-radius,Chunk.CHUNK_SIZE);
+        int southBoundChunk = Math.floorDiv(y+radius,Chunk.CHUNK_SIZE);
 
         for (int chunkX = westBoundChunk; chunkX <= eastBoundChunk; chunkX++) {
             for (int chunkY = northBoundChunk; chunkY <= southBoundChunk; chunkY++) {
@@ -142,10 +139,10 @@ public class World implements Searchable {
     @Override
     public List<Entity> squareSearch(int x, int y, int width, int height) {
         List<Entity> foundEntities = new ArrayList<>();
-        int westBoundChunk = (x)/Chunk.CHUNK_SIZE;
-        int eastBoundChunk = (x+width)/Chunk.CHUNK_SIZE;
-        int northBoundChunk = (y)/Chunk.CHUNK_SIZE;
-        int southBoundChunk = (y+height)/Chunk.CHUNK_SIZE;
+        int westBoundChunk = Math.floorDiv(x,Chunk.CHUNK_SIZE);
+        int eastBoundChunk = Math.floorDiv(x+width,Chunk.CHUNK_SIZE);
+        int northBoundChunk = Math.floorDiv(y,Chunk.CHUNK_SIZE);
+        int southBoundChunk = Math.floorDiv(y+height,Chunk.CHUNK_SIZE);
         for (int chunkX = westBoundChunk; chunkX < eastBoundChunk; chunkX++) {
             for (int chunkY = northBoundChunk; chunkY < southBoundChunk; chunkY++) {
                 Collections.copy(foundEntities,getChunk(chunkX,chunkY).squareSearch(x,y,width,height));
@@ -156,7 +153,7 @@ public class World implements Searchable {
 
     @Override
     public List<Entity> pointSearch(int x,int y){
-        return getChunk(x/Chunk.CHUNK_SIZE,y/Chunk.CHUNK_SIZE).pointSearch(x,y);
+        return getChunk( Math.floorDiv(x,Chunk.CHUNK_SIZE), Math.floorDiv(y,Chunk.CHUNK_SIZE)).pointSearch(x,y);
     }
 
     public Player getPlayer() {

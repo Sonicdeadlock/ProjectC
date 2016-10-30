@@ -1,6 +1,5 @@
 package io.sonicdeadlock.projectc.entity;
 
-import io.sonicdeadlock.projectc.util.UserOutputStream;
 import io.sonicdeadlock.projectc.util.UserPrintStream;
 import io.sonicdeadlock.projectc.world.Loadable;
 import org.json.JSONObject;

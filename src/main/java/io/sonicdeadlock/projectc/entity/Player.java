@@ -1,5 +1,6 @@
 package io.sonicdeadlock.projectc.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.sonicdeadlock.projectc.entity.attribute.Attribute;
 import io.sonicdeadlock.projectc.entity.attribute.Settings;
 import io.sonicdeadlock.projectc.entity.skill.EyeSight;
@@ -46,8 +47,14 @@ public class Player extends Entity {
         return attributes;
     }
 
+    @JsonIgnore
     public List<Skill> getSkills() {
         return skills;
+    }
+
+    @Override
+    public char getMapCharacter() {
+        return 'P';
     }
 
     @Override
@@ -235,7 +242,7 @@ public class Player extends Entity {
     }
 
     public boolean canMoveToPoint(int x, int y, World world){
-        int deltaX = getX()-x;
+        int deltaX = x-getX();
         int deltaY = y-getY();
         double direction = Math.atan2(deltaY,deltaX);
         double distance = Math.abs(SpacialUtils.getDistance(getX(), getY(), x, y));
