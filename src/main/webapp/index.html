@@ -8,42 +8,65 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata|Source+Code+Pro|Share+Tech+Mono" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-    <p>hello world1</p>
-    <div ng-app="userApp">
-        <div ng-controller="gameController">
-            <h2>Map</h2>
-            <p>({{player.x}},{{player.y}})</p>
-            <div>
-                <p ng-repeat="row in map">
+<body style="height: 100%">
+    <div ng-app="userApp" style="height: 100%">
+        <div ng-controller="gameController" style="height: 100%">
+            <div class="column">
+
+                <h2>Map</h2>
+                <p>({{player.x}},{{player.y}})</p>
+                <div id="map">
+                    <p ng-repeat="row in map" >
                     <span ng-repeat="cell in row  track by $index">
-                        <span>
+                        <span ng-click="selectEntity(cell)">
                             {{(cell!=null && cell!=undefined)?cell.mapCharacter:"&nbsp;"}}
                         </span>
                     </span>
 
-                </p>
-            </div>
-            <div>
-                <table>
-                    <tbody>
+                    </p>
+                </div><br/>
+                <div id="stats">
+                    <table>
+                        <tbody>
                         <tr>
                             <th>Skill</th>
                             <th>Current Level</th>
                             <th>Remaining XP</th>
                         </tr>
-                    </tbody>
-                    <tr>
-                        <td>Eye Sight</td>
-                        <td>{{player.eyeSight.currentLevel}}</td>
-                        <td>{{player.eyeSight.xpForNextLevel-player.eyeSight.currentXP}}</td>
-                    </tr>
-                    <tr>
-                        <td>Sprint</td>
-                        <td>{{player.sprint.currentLevel}}</td>
-                        <td>{{player.sprint.xpForNextLevel-player.sprint.currentXP}}</td>
-                    </tr>
-                </table>
+                        </tbody>
+                        <tr>
+                            <td>Eye Sight</td>
+                            <td>{{player.eyeSight.currentLevel}}</td>
+                            <td>{{player.eyeSight.xpForNextLevel-player.eyeSight.currentXP}}</td>
+                        </tr>
+                        <tr>
+                            <td>Sprint</td>
+                            <td>{{player.sprint.currentLevel}}</td>
+                            <td>{{player.sprint.xpForNextLevel-player.sprint.currentXP}}</td>
+                        </tr>
+                    </table>
+                </div><br/>
+                <div id="selected" ng-if="player.selected">
+                    <p>{{player.selected.type}}</p>
+                    <b>Actions</b>
+                    <ul>
+                        <li ng-repeat="action in player.selected.performableActions" ng-click="performActionOnSelected(action)">{{action}}</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="column">
+                <div id="inventory">
+                    <b>Inventory</b>
+                    <ul>
+                        <li ng-repeat="item in player.inventory track by $index" ng-click="selectInventoryItem($index)">{{item.type}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="column">
+                <div id="log" >
+                    <p ng-repeat="line in lines track by $index ">{{line}}</p>
+                </div>
             </div>
         </div>
     </div>

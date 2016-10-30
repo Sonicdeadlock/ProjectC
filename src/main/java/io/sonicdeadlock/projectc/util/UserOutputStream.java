@@ -12,7 +12,7 @@ import java.io.PrintStream;
 public class UserOutputStream extends OutputStream {
     private static UserOutputStream ourInstance = new UserOutputStream();
     private Text guiText;
-    private StringBuilder text = new StringBuilder();
+    private StringBuilder text = new StringBuilder(),flash= new StringBuilder();
 
 
     public static UserOutputStream getInstance() {
@@ -21,12 +21,16 @@ public class UserOutputStream extends OutputStream {
 
     @Override
     public void flush() {
-        if (guiText != null) {
-            guiText.setText(text.toString());
-        }
+        flash.append(text);
 
 
         text = new StringBuilder();
+    }
+
+    public String getFlash(){
+        String f = flash.toString();
+        flash = new StringBuilder();
+        return f;
     }
 
     @Override

@@ -5,6 +5,7 @@ import io.sonicdeadlock.projectc.entity.Widget;
 import io.sonicdeadlock.projectc.entity.attribute.Settings;
 import io.sonicdeadlock.projectc.entity.skill.EyeSight;
 import io.sonicdeadlock.projectc.entity.skill.Sprint;
+import io.sonicdeadlock.projectc.item.WidgetItem;
 import io.sonicdeadlock.projectc.util.LoaderFactory;
 import io.sonicdeadlock.projectc.world.chunk.ChunkGenerator;
 import io.sonicdeadlock.projectc.world.chunk.generators.ChunkWidgetGenerator;
@@ -30,6 +31,7 @@ public class PreInit {
         registerGenerators();
         registerAttributes();
         registerSkills();
+        registerItems();
     }
 
     private void registerEntities(){
@@ -56,5 +58,11 @@ public class PreInit {
         LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Sprint.TYPE,Sprint.class);
         LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(EyeSight.TYPE,EyeSight.class);
         LOGGER.info("Finished Skill Registration");
+    }
+
+    private void registerItems(){
+        LOGGER.info("Starting Item Registration");
+        LoaderFactory.getItemLoaderFactoryInstance().registerLoadable(WidgetItem.TYPE,WidgetItem.class);
+        LOGGER.info("Finished Item Registration");
     }
 }

@@ -131,7 +131,7 @@ public class InputHandler {
         StringBuilder actionString = new StringBuilder();
         for (int i = 1; i < inputParts.length; i++) {
             actionString.append(inputParts[i]);
-            player.getSelected().performAction(actionString.toString());
+            player.getSelected().performAction(actionString.toString(),player);
         }
         return new GameResponse("");
     }

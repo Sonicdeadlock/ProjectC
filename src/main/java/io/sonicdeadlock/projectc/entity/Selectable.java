@@ -7,6 +7,6 @@ import java.util.List;
  */
 public interface Selectable {
     List<String> getPerformableActions();
-    void performAction(String action);
+    void performAction(String action,Player player);
 
 }

@@ -31,7 +31,7 @@ public abstract class Entity implements Loadable,Selectable{
         performableActions.add(performableAction);
     }
 
-    public void performAction(String action){
+    public void performAction(String action,Player player){
         if(action.equalsIgnoreCase(EXAMINE_ACTION))
             UserPrintStream.getInstance().println(EXAMINE_TEXT);
     }

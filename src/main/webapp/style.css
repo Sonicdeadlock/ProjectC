@@ -4,4 +4,11 @@ body{
 }
 *{
     font-family: 'Source Code Pro' ;
+    margin:0;
+}
+
+.column{
+    height: 100%;
+    max-width: 25%;
+    display: inline-table;
 }

@@ -1,5 +1,8 @@
 package io.sonicdeadlock.projectc.entity;
 
+import io.sonicdeadlock.projectc.item.WidgetItem;
+import io.sonicdeadlock.projectc.util.UserOutputStream;
+import io.sonicdeadlock.projectc.util.UserPrintStream;
 import org.json.JSONObject;
 
 /**
@@ -21,6 +24,7 @@ public class Widget extends Entity {
         super();
         addPerformableAction("doFoo");
         addPerformableAction("doBar");
+        addPerformableAction("Add Item");
     }
 
     public JSONObject getSaveObject() {
@@ -34,8 +38,16 @@ public class Widget extends Entity {
     }
 
     @Override
-    public void performAction(String action) {
-        super.performAction(action);
+    public void performAction(String action,Player player) {
+        super.performAction(action,player);
+        if(action.equals("doFoo")){
+            UserPrintStream.getInstance().println("Foo Happened");
+        }else if(action.equals("doBar")){
+            UserPrintStream.getInstance().println("Bar Happened");
+            UserPrintStream.getInstance().println("Which you might consider interesting!");
+        }else if(action.equals("Add Item")){
+            player.getInventory().add(new WidgetItem());
+        }
     }
 
     public void load(JSONObject saveObject) {
