@@ -37,7 +37,8 @@ jar{
 }
 
 task updateBuildNumber << {
-    def buildNumberFile = file('BUILD_NUMBER')
+ 	file("src/main/resources/version").text=version 
+	def buildNumberFile = file('BUILD_NUMBER')
     buildNumberFile.text =buildNumberFile.text.toInteger()+1
 }
 
@@ -51,7 +52,7 @@ task moveWar(type: Copy){
 
 task localDeploy(type: Copy){
     from 'dist'
-    into 'C:\\EAP-7.0.0\\standalone\\deployments'
+    into '/opt/eap/EAP-7.0.0/standalone/deployments'
 }
 
 jar.finalizedBy updateBuildNumber
