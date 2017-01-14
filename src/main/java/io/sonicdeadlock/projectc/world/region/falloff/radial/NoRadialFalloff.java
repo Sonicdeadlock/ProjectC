@@ -15,10 +15,9 @@ public class NoRadialFalloff extends RadialFalloffFunction {
         return 1;
     }
 
-    public String getType(){
+    public String getType() {
         return TYPE;
     }
-
 
 
 }

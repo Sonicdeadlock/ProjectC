@@ -13,8 +13,8 @@ public abstract class ChunkSimpleComponentGenerator<T extends Entity> extends Ch
         Random random = new Random();
         for (int x = 0; x < Chunk.CHUNK_SIZE; x++) {
             for (int y = 0; y < Chunk.CHUNK_SIZE; y++) {
-                if(getGenerationChance()>=random.nextDouble()){
-                    Entity entity = getNewEntity(chunk.getGlobalX(x),chunk.getGlobalY(y));
+                if (getGenerationChance() >= random.nextDouble()) {
+                    Entity entity = getNewEntity(chunk.getGlobalX(x), chunk.getGlobalY(y));
                     chunk.addEntity(entity);
                 }
             }
@@ -22,6 +22,7 @@ public abstract class ChunkSimpleComponentGenerator<T extends Entity> extends Ch
     }
 
     protected abstract double getGenerationChance();
-    protected abstract T getNewEntity(int x,int y);
+
+    protected abstract T getNewEntity(int x, int y);
 
 }

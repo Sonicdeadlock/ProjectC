@@ -7,11 +7,12 @@ import io.sonicdeadlock.projectc.entity.Widget;
  */
 public class ChunkWidgetGenerator extends ChunkSimpleComponentGenerator<Widget> {
     private static final double GENERATION_CHANCE = .01;
+
     protected double getGenerationChance() {
         return GENERATION_CHANCE;
     }
 
     protected Widget getNewEntity(int x, int y) {
-        return new Widget(x,y);
+        return new Widget(x, y);
     }
 }

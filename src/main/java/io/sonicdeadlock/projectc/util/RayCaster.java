@@ -13,13 +13,13 @@ import java.util.stream.Collectors;
 public class RayCaster {
 
     public static final Config CHECK_ENTITY_EXISTS = new Config();
-    public static final double DIRECTION_NORTH=Math.PI*.5,DIRECTION_SOUTH= Math.PI*1.5,DIRECTION_EAST=0,DIRECTION_WEST=Math.PI;
+    public static final double DIRECTION_NORTH = Math.PI * .5, DIRECTION_SOUTH = Math.PI * 1.5, DIRECTION_EAST = 0, DIRECTION_WEST = Math.PI;
+
     static {
         CHECK_ENTITY_EXISTS.setCheckEntityExists(true);
     }
 
     /**
-     *
      * @param x
      * @param y
      * @param direction in radians
@@ -28,10 +28,10 @@ public class RayCaster {
      * @param config
      * @return
      */
-    public static List<Entity> castRay(int x,int y,double direction,double distance,World world,Config config){
-        Ray r = new Ray(direction,distance,x,y);
+    public static List<Entity> castRay(int x, int y, double direction, double distance, World world, Config config) {
+        Ray r = new Ray(direction, distance, x, y);
         List<Entity> matching = new ArrayList<>();
-        while (r.hasNextPoint()){
+        while (r.hasNextPoint()) {
             Point point = r.getNextPoint();
             List<Entity> entities = world.pointSearch(((int) point.getX()), ((int) point.getY()));
             matching.addAll(entities.stream().filter(entity -> checkConditions(entity, config)).collect(Collectors.toList()));
@@ -39,24 +39,24 @@ public class RayCaster {
         return matching;
     }
 
-    public static List<Entity> rayCastCircle(int x,int y,int radius,World world,Config config){
-        return world.radialSearch(x,y,radius).stream().filter(entity -> checkConditions(entity,config)).collect(Collectors.toList());
+    public static List<Entity> rayCastCircle(int x, int y, int radius, World world, Config config) {
+        return world.radialSearch(x, y, radius).stream().filter(entity -> checkConditions(entity, config)).collect(Collectors.toList());
     }
 
-    private static boolean checkConditions(Entity entity,Config config){
+    private static boolean checkConditions(Entity entity, Config config) {
         if (entity != null && config.isCheckEntityExists()) {
             return true;
         }
 
 
-
         return false;
     }
 
-    private static class Ray{
-        double direction,amplitude;
-        int x,y;
+    private static class Ray {
+        double direction, amplitude;
+        int x, y;
         Point previousPoint = null;
+
         private Ray(double direction, double amplitude, int x, int y) {
             this.direction = direction;
             this.amplitude = amplitude;
@@ -64,19 +64,19 @@ public class RayCaster {
             this.y = y;
         }
 
-        private Point getNextPoint(){
+        private Point getNextPoint() {
             double deltaX = Math.cos(direction);
             double deltaY = Math.sin(direction);
             Point p;
             if (previousPoint != null) {
-                p = new Point(previousPoint.getX()+deltaX,previousPoint.getY()+deltaY);
-            }else{
-                p = new Point(x+deltaX,y+deltaY);
+                p = new Point(previousPoint.getX() + deltaX, previousPoint.getY() + deltaY);
+            } else {
+                p = new Point(x + deltaX, y + deltaY);
             }
-            if(p.equals(previousPoint)){
+            if (p.equals(previousPoint)) {
                 return getNextPoint();
             }
-            previousPoint =p;
+            previousPoint = p;
             return previousPoint;
         }
 
@@ -86,8 +86,8 @@ public class RayCaster {
 
     }
 
-    private static class Point{
-        double x,y;
+    private static class Point {
+        double x, y;
 
         public Point(double x, double y) {
             this.x = x;
@@ -103,19 +103,19 @@ public class RayCaster {
         }
 
         @Override
-        public boolean equals(Object object){
+        public boolean equals(Object object) {
             if (object == null) {
                 return false;
             }
-            if(!(object instanceof Point))
+            if (!(object instanceof Point))
                 return false;
             Point p = (Point) object;
-            return this.x==p.getX() && this.y==p.getY();
+            return this.x == p.getX() && this.y == p.getY();
         }
     }
 
-    public static class Config{
-        private boolean checkEntityExists=false;
+    public static class Config {
+        private boolean checkEntityExists = false;
 
         private boolean isCheckEntityExists() {
             return checkEntityExists;

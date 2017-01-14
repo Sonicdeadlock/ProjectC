@@ -5,13 +5,13 @@ import io.sonicdeadlock.projectc.world.Loadable;
 /**
  * Created by Alex on 10/13/2016.
  */
-public abstract class Item implements Loadable{
+public abstract class Item implements Loadable {
 
-    public boolean canStack(){
+    public boolean canStack() {
         return true;
     }
 
-    public double getMass(){
+    public double getMass() {
         return 0;
     }
 

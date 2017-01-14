@@ -19,38 +19,18 @@ import java.util.Map;
  */
 public class LoaderFactory<T extends Loadable> {
 
-    private Map<String,Class<? extends T>> loadableTypes = new HashMap<>();
     private static final Logger LOGGER = LogManager.getLogger(LoaderFactory.class);
-    private final  static LoaderFactory<Entity> entityLoaderFactoryInstance = new LoaderFactory<>();
-    private final  static LoaderFactory<Attribute> attributeLoaderFactoryInstance = new LoaderFactory<>();
-    private final  static LoaderFactory<Effect> effectLoaderFactoryInstance = new LoaderFactory<>();
-    private final  static LoaderFactory<FalloffFunction> falloffFunctionLoaderFactoryInstance = new LoaderFactory<>();
+    private final static LoaderFactory<Entity> entityLoaderFactoryInstance = new LoaderFactory<>();
+    private final static LoaderFactory<Attribute> attributeLoaderFactoryInstance = new LoaderFactory<>();
+    private final static LoaderFactory<Effect> effectLoaderFactoryInstance = new LoaderFactory<>();
+    private final static LoaderFactory<FalloffFunction> falloffFunctionLoaderFactoryInstance = new LoaderFactory<>();
     private final static LoaderFactory<Region> regionLoaderFactoryInstance = new LoaderFactory<>();
     private final static LoaderFactory<Item> itemLoaderFactoryInstance = new LoaderFactory<>();
+    private Map<String, Class<? extends T>> loadableTypes = new HashMap<>();
 
 
-    private LoaderFactory(){
+    private LoaderFactory() {
 
-    }
-
-
-
-    public void registerLoadable(String type , Class<? extends T> clazz){
-        loadableTypes.put(type,clazz);
-    }
-
-    public T getLoadable(String type, JSONObject saveObject){
-        if(!loadableTypes.containsKey(type))
-            throw new IllegalArgumentException("Unregistered Loadable type: "+ type);
-        Class<? extends T> clazz =loadableTypes.get(type);
-        try {
-            T newLoadable = clazz.newInstance();
-            newLoadable.load(saveObject);
-            return newLoadable;
-        } catch (InstantiationException | IllegalAccessException e) {
-            LOGGER.error("Error when creating Loadable: "+clazz.getName(),e);
-        }
-        return null;
     }
 
     public static LoaderFactory<Entity> getEntityLoaderFactoryInstance() {
@@ -75,5 +55,23 @@ public class LoaderFactory<T extends Loadable> {
 
     public static LoaderFactory<Item> getItemLoaderFactoryInstance() {
         return itemLoaderFactoryInstance;
+    }
+
+    public void registerLoadable(String type, Class<? extends T> clazz) {
+        loadableTypes.put(type, clazz);
+    }
+
+    public T getLoadable(String type, JSONObject saveObject) {
+        if (!loadableTypes.containsKey(type))
+            throw new IllegalArgumentException("Unregistered Loadable type: " + type);
+        Class<? extends T> clazz = loadableTypes.get(type);
+        try {
+            T newLoadable = clazz.newInstance();
+            newLoadable.load(saveObject);
+            return newLoadable;
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOGGER.error("Error when creating Loadable: " + clazz.getName(), e);
+        }
+        return null;
     }
 }

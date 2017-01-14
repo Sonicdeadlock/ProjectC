@@ -5,8 +5,9 @@ import org.json.JSONObject;
 /**
  * Created by Alex on 10/8/2016.
  */
-public class EyeSight extends Skill{
-    public static final String TYPE= "EyeSight";
+public class EyeSight extends Skill {
+    public static final String TYPE = "EyeSight";
+
     @Override
     public String getName() {
         return TYPE;
@@ -22,11 +23,11 @@ public class EyeSight extends Skill{
         return super.getSaveObject();
     }
 
-    public String getType(){
+    public String getType() {
         return TYPE;
     }
 
-    public int getViewDistance(){
-        return 5+getCurrentLevel()/3;
+    public int getViewDistance() {
+        return 5 + getCurrentLevel() / 3;
     }
 }

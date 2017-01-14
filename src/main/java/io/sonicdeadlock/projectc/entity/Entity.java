@@ -1,6 +1,5 @@
 package io.sonicdeadlock.projectc.entity;
 
-import io.sonicdeadlock.projectc.util.UserOutputStream;
 import io.sonicdeadlock.projectc.util.UserPrintStream;
 import io.sonicdeadlock.projectc.world.Loadable;
 import org.json.JSONObject;
@@ -11,13 +10,13 @@ import java.util.List;
 /**
  * Created by Alex on 10/5/2016.
  */
-public abstract class Entity implements Loadable,Selectable{
-    private int x,y;
-    private List<String> performableActions=new ArrayList<String>();
+public abstract class Entity implements Loadable, Selectable {
     protected static final String EXAMINE_ACTION = "Examine";
     protected static String EXAMINE_TEXT = "Nothing interesting happens";
+    private int x, y;
+    private List<String> performableActions = new ArrayList<String>();
 
-    public Entity(){
+    public Entity() {
         addPerformableAction(EXAMINE_ACTION);
     }
 
@@ -28,12 +27,12 @@ public abstract class Entity implements Loadable,Selectable{
 
     }
 
-    protected void addPerformableAction(String performableAction){
+    protected void addPerformableAction(String performableAction) {
         performableActions.add(performableAction);
     }
 
-    public void performAction(String action){
-        if(action.equalsIgnoreCase(EXAMINE_ACTION))
+    public void performAction(String action) {
+        if (action.equalsIgnoreCase(EXAMINE_ACTION))
             UserPrintStream.getInstance().println(EXAMINE_TEXT);
     }
 
@@ -60,8 +59,8 @@ public abstract class Entity implements Loadable,Selectable{
 
     public JSONObject getSaveObject() {
         JSONObject saveObject = new JSONObject();
-        saveObject.put("x",x);
-        saveObject.put("y",y);
+        saveObject.put("x", x);
+        saveObject.put("y", y);
         return saveObject;
     }
 
@@ -71,7 +70,7 @@ public abstract class Entity implements Loadable,Selectable{
     }
 
 
-    public char getMapCharacter(){
+    public char getMapCharacter() {
         throw new UnsupportedOperationException();
     }
 }
