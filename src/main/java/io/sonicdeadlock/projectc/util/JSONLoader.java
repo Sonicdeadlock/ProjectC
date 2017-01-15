@@ -19,11 +19,12 @@ public class JSONLoader {
 
     public static JSONObject loadJSONObject(File file) throws IOException {
         StringBuilder source = new StringBuilder();
-        BufferedReader br=new BufferedReader(new FileReader(file));
+        BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
-        while ((line=br.readLine())!=null){
+        while ((line = br.readLine()) != null) {
             source.append(line);
         }
+        br.close();
         return new JSONObject(source.toString());
 
     }

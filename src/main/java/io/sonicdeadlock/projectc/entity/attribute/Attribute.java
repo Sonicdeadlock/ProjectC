@@ -8,7 +8,7 @@ import io.sonicdeadlock.projectc.world.Loadable;
 public abstract class Attribute implements Loadable {
 
 
-    public boolean isType(String type){
+    public boolean isType(String type) {
         return getType().equals(type);
     }
 }

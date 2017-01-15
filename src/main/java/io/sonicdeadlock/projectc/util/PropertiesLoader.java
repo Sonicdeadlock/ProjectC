@@ -8,6 +8,7 @@ import java.util.Properties;
  */
 public class PropertiesLoader {
     private static final Properties PROPERTIES;
+
     static {
         PROPERTIES = new Properties();
         try {
@@ -17,11 +18,11 @@ public class PropertiesLoader {
         }
     }
 
-    public static String getProperty(String propertyName){
-        return  PROPERTIES.getProperty(propertyName);
+    public static String getProperty(String propertyName) {
+        return PROPERTIES.getProperty(propertyName);
     }
 
-    public static String getProperty(String dir,String propertyName){
-        return PROPERTIES.getProperty(dir+"."+propertyName);
+    public static String getProperty(String dir, String propertyName) {
+        return PROPERTIES.getProperty(dir + "." + propertyName);
     }
 }

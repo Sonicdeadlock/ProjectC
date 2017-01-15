@@ -1,6 +1,5 @@
 package io.sonicdeadlock.projectc.ui.gui;
 
-import javafx.beans.InvalidationListener;
 import javafx.beans.NamedArg;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ObjectPropertyBase;
@@ -24,78 +23,83 @@ import java.util.List;
 public class TextScene extends Scene {
     private static final Logger LOGGER = LogManager.getLogger(TextScene.class);
     private List<String> currentCharacters = new ArrayList<>();
-    private int cursorIndex=-1;
-    private Text sceneText = new Text(10,15,"_");
+    private int cursorIndex = -1;
+    private Text sceneText = new Text(10, 15, "_");
     private Scene scene;
     private ObjectProperty<EventHandler<? super ExecuteEvent>> onExecute;
+
     public TextScene(@NamedArg("root") Parent root) {
-        super(root,700,400, Color.BLACK);
-        scene=this;
+        super(root, 700, 400, Color.BLACK);
+        scene = this;
         setOnKeyPressed(this::processKeyEvent);
         sceneText.setStroke(Color.LAWNGREEN);
         sceneText.setFill(Color.LAWNGREEN);
-        sceneText.setFont(Font.font ("Consolas"));
+        sceneText.setFont(Font.font("Consolas"));
 
         sceneText.maxHeight(100);
 
     }
 
-    public Text getText(){
+    private static boolean isArrowKey(KeyEvent keyEvent) {
+        return keyEvent.getCode() == KeyCode.UP || keyEvent.getCode() == KeyCode.DOWN ||
+                keyEvent.getCode() == KeyCode.LEFT || keyEvent.getCode() == KeyCode.RIGHT;
+    }
+
+    public Text getText() {
         return sceneText;
     }
 
-    private void processKeyEvent(KeyEvent keyEvent){
+    private void processKeyEvent(KeyEvent keyEvent) {
         LOGGER.trace(keyEvent.getCode());
         String input = keyEvent.getText();
-        if(keyEvent.getCode()==KeyCode.BACK_SPACE){
-            if(cursorIndex>=0){
+        if (keyEvent.getCode() == KeyCode.BACK_SPACE) {
+            if (cursorIndex >= 0) {
                 currentCharacters.remove(cursorIndex);
                 LOGGER.trace("User hit backspace so removing character at cursor index");
-                if(cursorIndex>0)
-                cursorIndex--;
+                if (cursorIndex > 0)
+                    cursorIndex--;
                 updateText();
             }
-        }else if(isArrowKey(keyEvent)){
-            if(currentCharacters.size()>0){
+        } else if (isArrowKey(keyEvent)) {
+            if (currentCharacters.size() > 0) {
                 LOGGER.trace("Move cursor");
-                switch (keyEvent.getCode()){
+                switch (keyEvent.getCode()) {
                     case LEFT:
-                        if(cursorIndex>0)
+                        if (cursorIndex > 0)
                             cursorIndex--;
                         break;
                     case RIGHT:
-                        if(cursorIndex<currentCharacters.size()-1)
+                        if (cursorIndex < currentCharacters.size() - 1)
                             cursorIndex++;
                         break;
                 }
-            }else{
+            } else {
                 String moveText = "move ";
-                switch (keyEvent.getCode()){
+                switch (keyEvent.getCode()) {
                     case LEFT:
-                        moveText+="-1 0";
+                        moveText += "-1 0";
                         break;
                     case RIGHT:
-                        moveText+="1 0";
+                        moveText += "1 0";
                         break;
                     case UP:
-                        moveText+="0 -1";
+                        moveText += "0 -1";
                         break;
                     case DOWN:
-                        moveText+="0 1";
+                        moveText += "0 1";
                 }
                 getOnExecute().handle(new ExecuteEvent(moveText));
             }
             updateText();
-        }else if(keyEvent.getCode()==KeyCode.ENTER){
+        } else if (keyEvent.getCode() == KeyCode.ENTER) {
             getOnExecute().handle(new ExecuteEvent(getCurrentText().toString()));
             currentCharacters.clear();
-            cursorIndex=-1;
-        }
-        else if(!input.isEmpty()){
-            if(cursorIndex==currentCharacters.size()-1)
+            cursorIndex = -1;
+        } else if (!input.isEmpty()) {
+            if (cursorIndex == currentCharacters.size() - 1)
                 currentCharacters.add(input);
             else
-                currentCharacters.add(cursorIndex+1,input);
+                currentCharacters.add(cursorIndex + 1, input);
 
             cursorIndex++;
             updateText();
@@ -105,19 +109,14 @@ public class TextScene extends Scene {
 
     }
 
-    private static boolean isArrowKey(KeyEvent keyEvent){
-        return keyEvent.getCode() == KeyCode.UP ||keyEvent.getCode()==KeyCode.DOWN ||
-                keyEvent.getCode()==KeyCode.LEFT || keyEvent.getCode()==KeyCode.RIGHT;
-    }
-
-    private void updateText(){
-        if(getCurrentText().length()>0)
-        sceneText.setText(getCurrentText().insert(cursorIndex+1,'_').toString());
+    private void updateText() {
+        if (getCurrentText().length() > 0)
+            sceneText.setText(getCurrentText().insert(cursorIndex + 1, '_').toString());
         else
             sceneText.setText("_");
     }
 
-    private StringBuilder getCurrentText(){
+    private StringBuilder getCurrentText() {
         StringBuilder sb = new StringBuilder(currentCharacters.size());
         currentCharacters.forEach(sb::append);
         return sb;
@@ -127,15 +126,11 @@ public class TextScene extends Scene {
         return onExecute.get();
     }
 
-    public ObjectProperty<EventHandler<? super ExecuteEvent>> onExecuteProperty() {
-        return onExecute;
-    }
-
     public void setOnExecute(EventHandler<? super ExecuteEvent> onExecute) {
 
-        if(this.onExecute==null)
+        if (this.onExecute == null)
             this.onExecute = new ObjectPropertyBase<EventHandler<? super ExecuteEvent>>() {
-//
+                //
                 @Override
                 public Object getBean() {
                     return scene;
@@ -147,5 +142,9 @@ public class TextScene extends Scene {
                 }
             };
         this.onExecute.set(onExecute);
+    }
+
+    public ObjectProperty<EventHandler<? super ExecuteEvent>> onExecuteProperty() {
+        return onExecute;
     }
 }

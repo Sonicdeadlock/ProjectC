@@ -15,46 +15,47 @@ import org.apache.logging.log4j.Logger;
  * Created by Alex on 10/5/2016.
  */
 public class PreInit {
-    private static PreInit ourInstance = new PreInit();
     private static final Logger LOGGER = LogManager.getLogger(PreInit.class);
-    public static PreInit getInstance() {
-        return ourInstance;
-    }
+    private static PreInit ourInstance = new PreInit();
 
     private PreInit() {
 
     }
 
-    public void preInit(){
+    public static PreInit getInstance() {
+        return ourInstance;
+    }
+
+    public void preInit() {
         registerEntities();
         registerGenerators();
         registerAttributes();
         registerSkills();
     }
 
-    private void registerEntities(){
+    private void registerEntities() {
         LOGGER.info("Starting Entity registration");
-        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Widget.TYPE,Widget.class);
-        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Player.TYPE,Player.class);
+        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Widget.TYPE, Widget.class);
+        LoaderFactory.getEntityLoaderFactoryInstance().registerLoadable(Player.TYPE, Player.class);
         LOGGER.info("Finished Entity registration");
     }
 
-    private void registerGenerators(){
+    private void registerGenerators() {
         LOGGER.info("Starting Chunk Generator Registration");
         ChunkGenerator.getInstance().registerGenerator(ChunkWidgetGenerator.class);
         LOGGER.info("Finished Chunk Generator Registration");
     }
 
-    private void registerAttributes(){
+    private void registerAttributes() {
         LOGGER.info("Starting Attribute Registration");
-        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Settings.TYPE,Settings.class);
+        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Settings.TYPE, Settings.class);
         LOGGER.info("Finished Attribute Registration");
     }
 
-    private void registerSkills(){
+    private void registerSkills() {
         LOGGER.info("Starting Skill Registration");
-        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Sprint.TYPE,Sprint.class);
-        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(EyeSight.TYPE,EyeSight.class);
+        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(Sprint.TYPE, Sprint.class);
+        LoaderFactory.getAttributeLoaderFactoryInstance().registerLoadable(EyeSight.TYPE, EyeSight.class);
         LOGGER.info("Finished Skill Registration");
     }
 }

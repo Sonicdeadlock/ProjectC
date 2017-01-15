@@ -6,15 +6,14 @@ import org.json.JSONObject;
 /**
  * Created by Alex on 10/10/2016.
  */
-public abstract class RadialFalloffFunction implements FalloffFunction{
-    private int x,y,radius;
+public abstract class RadialFalloffFunction implements FalloffFunction {
+    private int x, y, radius;
 
     public RadialFalloffFunction(int x, int y, int radius) {
         this.x = x;
         this.y = y;
         this.radius = radius;
     }
-
 
 
     protected int getX() {
@@ -32,9 +31,9 @@ public abstract class RadialFalloffFunction implements FalloffFunction{
     @Override
     public JSONObject getSaveObject() {
         JSONObject saveObject = new JSONObject();
-        saveObject.put("x",x);
-        saveObject.put("y",y);
-        saveObject.put("radius",radius);
+        saveObject.put("x", x);
+        saveObject.put("y", y);
+        saveObject.put("radius", radius);
         return saveObject;
     }
 
