@@ -1,6 +1,6 @@
 package io.sonicdeadlock.projectc.entity.skill;
 
-import org.json.JSONObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Created by Alex on 10/8/2016.
@@ -13,20 +13,12 @@ public class EyeSight extends Skill {
         return TYPE;
     }
 
-    @Override
-    public void load(JSONObject saveObject) {
-        super.load(saveObject);
-    }
-
-    @Override
-    public JSONObject getSaveObject() {
-        return super.getSaveObject();
-    }
 
     public String getType() {
         return TYPE;
     }
 
+    @JsonIgnore
     public int getViewDistance() {
         return 5 + getCurrentLevel() / 3;
     }

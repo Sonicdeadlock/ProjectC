@@ -1,8 +1,8 @@
 package io.sonicdeadlock.projectc.entity.skill;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.sonicdeadlock.projectc.entity.attribute.Attribute;
 import org.apache.commons.math3.primes.Primes;
-import org.json.JSONObject;
 
 /**
  * Created by Alex on 10/6/2016.
@@ -10,6 +10,7 @@ import org.json.JSONObject;
 public abstract class Skill extends Attribute {
     private int currentXP = 0;
 
+    @JsonIgnore
     public static int getXPForLevel(int level) {
         int xp = 0;
         for (int i = 0; i < level; i++) {
@@ -18,8 +19,10 @@ public abstract class Skill extends Attribute {
         return xp * 10;
     }
 
+    @JsonIgnore
     public abstract String getName();
 
+    @JsonIgnore
     public int getCurrentLevel() {
         int level = 0;
         while (getXPForLevel(level) < currentXP) {
@@ -28,6 +31,7 @@ public abstract class Skill extends Attribute {
         return level;
     }
 
+    @JsonIgnore
     public int getXpForNextLevel() {
         return getXPForLevel(getCurrentLevel() + 1);
     }
@@ -44,16 +48,8 @@ public abstract class Skill extends Attribute {
         return currentXP;
     }
 
-    @Override
-    public JSONObject getSaveObject() {
-        JSONObject saveObject = new JSONObject();
-        saveObject.put("currentXP", this.currentXP);
-        return saveObject;
-    }
-
-    @Override
-    public void load(JSONObject saveObject) {
-        this.currentXP = saveObject.getInt("currentXP");
+    public void setCurrentXP(int currentXP) {
+        this.currentXP = currentXP;
     }
 
     public String toString() {

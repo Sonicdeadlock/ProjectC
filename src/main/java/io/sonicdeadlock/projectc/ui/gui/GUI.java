@@ -71,7 +71,7 @@ public class GUI extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        PreInit.getInstance().preInit();
+        PreInit.getInstance();
         loadedWorld = new World();
         HBox root = new HBox();
         VBox textGroup = new VBox();

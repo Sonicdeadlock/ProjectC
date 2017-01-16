@@ -1,7 +1,6 @@
 package io.sonicdeadlock.projectc.world.region.falloff.radial;
 
 import io.sonicdeadlock.projectc.world.region.falloff.FalloffFunction;
-import org.json.JSONObject;
 
 /**
  * Created by Alex on 10/10/2016.
@@ -15,32 +14,27 @@ public abstract class RadialFalloffFunction implements FalloffFunction {
         this.radius = radius;
     }
 
-
-    protected int getX() {
+    public int getX() {
         return x;
     }
 
-    protected int getY() {
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
         return y;
     }
 
-    protected int getRadius() {
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getRadius() {
         return radius;
     }
 
-    @Override
-    public JSONObject getSaveObject() {
-        JSONObject saveObject = new JSONObject();
-        saveObject.put("x", x);
-        saveObject.put("y", y);
-        saveObject.put("radius", radius);
-        return saveObject;
-    }
-
-    @Override
-    public void load(JSONObject saveObject) {
-        this.y = saveObject.getInt("y");
-        this.x = saveObject.getInt("x");
-        this.radius = saveObject.getInt("radius");
+    public void setRadius(int radius) {
+        this.radius = radius;
     }
 }

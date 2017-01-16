@@ -2,20 +2,16 @@ package io.sonicdeadlock.projectc.world;
 
 import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.entity.Player;
-import io.sonicdeadlock.projectc.util.JSONLoader;
-import io.sonicdeadlock.projectc.util.LoaderFactory;
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
+import io.sonicdeadlock.projectc.util.SaveUtils;
 import io.sonicdeadlock.projectc.world.chunk.Chunk;
 import io.sonicdeadlock.projectc.world.chunk.ChunkGenerator;
 import io.sonicdeadlock.projectc.world.chunk.ChunkLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,8 +40,7 @@ public class World implements Searchable {
         File playerSaveFile = new File(PropertiesLoader.getProperty("saveLocation") + PropertiesLoader.getProperty("player", "saveFileName"));
         if (playerSaveFile.exists()) {
             try {
-                JSONObject playerData = JSONLoader.loadJSONObject(playerSaveFile);
-                return (Player) LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(Player.TYPE, playerData);
+                return SaveUtils.load(playerSaveFile, Player.class);
             } catch (IOException e) {
                 LOGGER.error(e);
             }
@@ -81,9 +76,7 @@ public class World implements Searchable {
     private void savePlayer() {
         File playerSaveFile = new File(PropertiesLoader.getProperty("saveLocation") + PropertiesLoader.getProperty("player", "saveFileName"));
         try {
-            Writer w = this.player.getSaveObject().write(new FileWriter(playerSaveFile));
-            w.flush();
-            w.close();
+            SaveUtils.save(playerSaveFile, this.player);
         } catch (IOException e) {
             LOGGER.error("Error Saving Player", e);
         }
@@ -97,9 +90,7 @@ public class World implements Searchable {
 
     private void saveChunk(Chunk chunk) {
         try {
-            Writer w = chunk.getSaveObject().write(new FileWriter(new File(Chunk.getSaveLocation(chunk.getX(), chunk.getY()))));
-            w.flush();
-            w.close();
+            SaveUtils.save(chunk.getSaveLocation(), chunk);
         } catch (IOException e) {
             LOGGER.error("Error Saving Chunk", e);
         }

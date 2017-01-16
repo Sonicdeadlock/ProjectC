@@ -1,7 +1,7 @@
 package io.sonicdeadlock.projectc.world.chunk;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.sonicdeadlock.projectc.entity.Entity;
-import io.sonicdeadlock.projectc.util.LoaderFactory;
 import io.sonicdeadlock.projectc.util.PropertiesLoader;
 import io.sonicdeadlock.projectc.util.SpacialUtils;
 import io.sonicdeadlock.projectc.world.Loadable;
@@ -9,8 +9,6 @@ import io.sonicdeadlock.projectc.world.Searchable;
 import io.sonicdeadlock.projectc.world.region.Region;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,10 @@ public class Chunk implements Loadable, Searchable {
         this.y = y;
     }
 
+    public Chunk() {
+
+    }
+
     public static String getSaveLocation(int x, int y) {
         StringBuilder fileName = new StringBuilder();
         fileName.append(PropertiesLoader.getProperty("saveLocation"))
@@ -54,26 +56,43 @@ public class Chunk implements Loadable, Searchable {
         return fileName.toString();
     }
 
+    @JsonIgnore
+    public String getSaveLocation() {
+        return getSaveLocation(getX(), getY());
+    }
+
     public int getX() {
         return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
     }
 
     public int getY() {
         return y;
     }
 
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    @JsonIgnore
     public int getEastBound() {
         return (x + 1) * CHUNK_SIZE - 1;
     }
 
+    @JsonIgnore
     public int getWestBound() {
         return x * CHUNK_SIZE;
     }
 
+    @JsonIgnore
     public int getNorthBound() {
         return y * CHUNK_SIZE;
     }
 
+    @JsonIgnore
     public int getSouthBound() {
         return (y + 1) * CHUNK_SIZE - 1;
     }
@@ -108,68 +127,30 @@ public class Chunk implements Loadable, Searchable {
         entities.add(entity);
     }
 
+    @JsonIgnore
     public int getEntityCount() {
         return entities.size();
     }
 
-    public JSONObject getSaveObject() {
-        JSONObject saveObject = new JSONObject();
-        JSONArray entities = new JSONArray();
-        for (Entity entity : this.entities) {
-            JSONObject entityWrappedObject = new JSONObject();
-            try {
-                entityWrappedObject.put("type", entity.getClass().getField("TYPE").get(null));
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                LOGGER.error("Error getting entity type ", e);
-            }
-            entityWrappedObject.put("entityData", entity.getSaveObject());
-            entities.put(entityWrappedObject);
-        }
-        JSONArray regions = new JSONArray();
-        for (Region region : this.regions) {
-            JSONObject regionWrappedObject = new JSONObject();
-            try {
-                regionWrappedObject.put("type", region.getClass().getField("TYPE").get(null));
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                LOGGER.error("Error getting entity type ", e);
-            }
-            regionWrappedObject.put("region", region.getSaveObject());
-            regions.put(regionWrappedObject);
-        }
+    public List<Entity> getEntities() {
+        return entities;
+    }
 
-        saveObject.put("entities", entities);
-        saveObject.put("regions", regions);
-        saveObject.put("x", x);
-        saveObject.put("y", y);
-        saveObject.put("entityCount", getEntityCount());
-        return saveObject;
+    public void setEntities(List<Entity> entities) {
+        this.entities = entities;
+    }
 
+    public List<Region> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<Region> regions) {
+        this.regions = regions;
     }
 
     @Override
     public String getType() {
         return TYPE;
-    }
-
-    public void load(JSONObject saveObject) {
-        this.entities = new ArrayList<>(saveObject.getInt("entityCount"));
-        this.regions = new ArrayList<>();
-        for (Object o : saveObject.getJSONArray("entities")) {
-            if (o instanceof JSONObject) {
-                JSONObject entitySaveWrapperObject = (JSONObject) o;
-                String type = entitySaveWrapperObject.getString("type");
-                Entity entity = LoaderFactory.getEntityLoaderFactoryInstance().getLoadable(type, entitySaveWrapperObject.getJSONObject("entityData"));
-                this.entities.add(entity);
-            }
-        }
-        for (Object o : saveObject.getJSONArray("regions")) {
-            if (o instanceof JSONObject) {
-                JSONObject regionSaveWrappedObject = ((JSONObject) o);
-                String type = regionSaveWrappedObject.getString("type");
-                Region region = LoaderFactory.getRegionLoaderFactoryInstance().getLoadable(type, regionSaveWrappedObject.getJSONObject("region"));
-                this.regions.add(region);
-            }
-        }
     }
 
     public List<Entity> radialSearch(int x, int y, int radius) {

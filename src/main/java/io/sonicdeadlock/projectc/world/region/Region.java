@@ -4,7 +4,6 @@ import io.sonicdeadlock.projectc.entity.Entity;
 import io.sonicdeadlock.projectc.world.Loadable;
 import io.sonicdeadlock.projectc.world.region.effect.Effect;
 import io.sonicdeadlock.projectc.world.region.falloff.FalloffFunction;
-import org.json.JSONObject;
 
 /**
  * Created by Alex on 10/10/2016.
@@ -22,8 +21,16 @@ public abstract class Region implements Loadable {
         return this.effect;
     }
 
+    public void setEffect(Effect effect) {
+        this.effect = effect;
+    }
+
     protected FalloffFunction getFalloffFunction() {
         return falloffFunction;
+    }
+
+    public void setFalloffFunction(FalloffFunction falloffFunction) {
+        this.falloffFunction = falloffFunction;
     }
 
     public abstract boolean isInRange(int x, int y);
@@ -44,15 +51,5 @@ public abstract class Region implements Loadable {
             throw new IllegalArgumentException("The point (" + x + "," + y + ")" + " does not exist in this region!");
         }
         effect.applyEffect(falloffFunction.getIntensity(x, y), entity);
-    }
-
-    @Override
-    public void load(JSONObject saveObject) {
-
-    }
-
-    @Override
-    public JSONObject getSaveObject() {
-        return null;
     }
 }
