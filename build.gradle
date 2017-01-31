@@ -9,11 +9,17 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.json', name: 'json', version: '20160810'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.6.2'
     // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
     compile group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+<<<<<<< HEAD
     compile group: 'org.lwjgl', name: 'lwjgl', version: '3.0.0'
+=======
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.6'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.6'
+>>>>>>> 1cb5eba9752c490cd40b56e18ab8c66318f79b45
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
 

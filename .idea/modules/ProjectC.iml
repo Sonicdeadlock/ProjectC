@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <module external.linked.project.id="ProjectC" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ProjectC" external.system.module.version="0.0.0.17-Alpha" type="JAVA_MODULE" version="4">
+=======
+<module external.linked.project.id="ProjectC" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="ProjectC" external.system.module.version="0.0.0.19-Alpha" type="JAVA_MODULE" version="4">
+>>>>>>> 1cb5eba9752c490cd40b56e18ab8c66318f79b45
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../..">

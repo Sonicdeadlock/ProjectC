@@ -1,8 +1,8 @@
 package io.sonicdeadlock.projectc.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.sonicdeadlock.projectc.util.UserPrintStream;
 import io.sonicdeadlock.projectc.world.Loadable;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +27,7 @@ public abstract class Entity implements Loadable, Selectable {
 
     }
 
+
     protected void addPerformableAction(String performableAction) {
         performableActions.add(performableAction);
     }
@@ -36,6 +37,7 @@ public abstract class Entity implements Loadable, Selectable {
             UserPrintStream.getInstance().println(EXAMINE_TEXT);
     }
 
+    @JsonIgnore
     public List<String> getPerformableActions() {
         return performableActions;
     }
@@ -57,20 +59,6 @@ public abstract class Entity implements Loadable, Selectable {
     }
 
 
-    public JSONObject getSaveObject() {
-        JSONObject saveObject = new JSONObject();
-        saveObject.put("x", x);
-        saveObject.put("y", y);
-        return saveObject;
-    }
-
-    public void load(JSONObject saveObject) {
-        this.x = saveObject.getInt("x");
-        this.y = saveObject.getInt("y");
-    }
-
-
-    public char getMapCharacter() {
-        throw new UnsupportedOperationException();
-    }
+    @JsonIgnore
+    public abstract char getMapCharacter();
 }
